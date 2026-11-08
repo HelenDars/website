@@ -18,12 +18,31 @@ engine = create_engine(get_settings().database_url, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 
+APP_ROLE = "nordis_app"
+
+
 @contextmanager
 def tenant_session(tenant_id: UUID) -> Iterator[Session]:
-    """Сессия, в которой видны только данные одного клиента."""
+    """Сессия, в которой видны только данные одного клиента.
+
+    На время транзакции переключаемся в роль nordis_app (не обходит RLS),
+    даже если подключение открыто владельцем схемы.
+    """
     with SessionLocal() as session, session.begin():
+        session.execute(text(f"SET LOCAL ROLE {APP_ROLE}"))
         session.execute(
             text("SELECT set_config('app.tenant_id', :tid, true)"),
             {"tid": str(tenant_id)},
         )
+        yield session
+
+
+@contextmanager
+def admin_session() -> Iterator[Session]:
+    """Сессия админки NORDIS: создание клиентов, общий справочник.
+
+    Работает от владельца схемы и видит всех клиентов. Не использовать
+    для запросов от имени клиента, Елены или ИИ-сотрудников.
+    """
+    with SessionLocal() as session, session.begin():
         yield session
