@@ -1,0 +1,735 @@
+<title>NORDIS — презентация</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one deck, two formats. Wide 1920x1080 for laptops, tall 1080x1920 for phones. Slides scale to fit the viewer. */
+:root{
+  --ink:#0D1229; --panel:#141B3A; --panel2:#1C2550; --lime:#C8F542; --steel:#5C6B9C; --mist:#A3ACCD;
+  --paper:#F3F5F8; --white:#FFFFFF; --line:#E1E5EE; --risk:#FF6B57; --amber:#F2B33D; --olive:#3F5200;
+  --dis:"Unbounded","Arial Black",system-ui,sans-serif; --txt:"Manrope",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:dark;
+}
+html,body{background:#080B1A;color:#F2F4FA}
+body{font-family:var(--txt)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:#080B1Aee;backdrop-filter:blur(6px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#080B1A}
+.bar button{font:600 14px var(--txt);color:#F2F4FA;background:#141B3A;border:1px solid #2A3360;border-radius:999px;padding:8px 16px;cursor:pointer}
+.bar button[aria-pressed="true"]{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.bar button:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.bar span{font-size:13px;color:var(--mist)}
+.deck{display:flex;flex-direction:column;align-items:center;gap:24px;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.frame{width:100%;position:relative;overflow:hidden;border-radius:12px;box-shadow:0 10px 40px #0008}
+.deck.wide .frame{max-width:1280px;aspect-ratio:16/9}
+.deck.tall .frame{max-width:440px;aspect-ratio:9/16}
+.frame > .s{position:absolute;top:0;left:0;transform-origin:0 0;transform:scale(var(--k,0.5))}
+body.print{background:none}
+body.print .bar{display:none}
+body.print .deck{padding:0;gap:0;display:block}
+body.print .deck .frame{border-radius:0;box-shadow:none;max-width:none;width:auto;aspect-ratio:auto;overflow:visible;break-after:page}
+body.print .deck .frame > .s{position:relative;transform:none}
+
+/* ---------- slide system ---------- */
+.s{box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:var(--txt)}
+.wide .s{width:1920px;height:1080px;padding:84px 120px 76px;--h1:124px;--h2:80px;--h3:40px;--lead:36px;--body:28px;--small:21px;--num:76px;--gap:28px;--logo:36px}
+.tall .s{width:1080px;height:1920px;padding:110px 76px 96px;--h1:100px;--h2:70px;--h3:38px;--lead:34px;--body:28px;--small:21px;--num:80px;--gap:24px;--logo:36px}
+.s.dark{background:var(--ink);color:#F2F4FA}
+.s.light{background:var(--paper);color:var(--ink)}
+.s.dark::after{content:"";position:absolute;right:-240px;bottom:-280px;width:760px;height:760px;border-radius:50%;background:radial-gradient(closest-side,#C8F54214,transparent);pointer-events:none}
+.s.light::after{content:"";position:absolute;right:-240px;bottom:-280px;width:760px;height:760px;border-radius:50%;background:radial-gradient(closest-side,#C8F54233,transparent);pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:center;gap:24px;flex:none}
+.top svg{height:var(--logo);width:calc(var(--logo) * 4.34)}
+.top .k{font:700 var(--small)/1 var(--txt);letter-spacing:.22em;text-transform:uppercase;opacity:.6;text-align:right}
+.main{flex:1;display:flex;flex-direction:column;justify-content:center;gap:var(--gap);min-height:0;position:relative;z-index:1}
+.foot{display:flex;justify-content:space-between;gap:24px;flex:none;font:500 var(--small)/1.3 var(--txt);letter-spacing:.04em;opacity:.55;position:relative;z-index:1}
+.foot .pg{font-family:var(--mono);white-space:nowrap}
+h1,h2,h3{font-family:var(--dis);font-weight:700;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:var(--h1);line-height:1.02}
+h2{font-size:var(--h2);line-height:1.05}
+h3{font-size:var(--h3);line-height:1.15}
+.dark em{font-style:normal;color:var(--lime)}
+.light em{font-style:normal;background:linear-gradient(transparent 62%,var(--lime) 62%)}
+p{margin:0}
+.lead{font-size:var(--lead);line-height:1.38;opacity:.82;max-width:32em}
+.body{font-size:var(--body);line-height:1.4}
+.muted{opacity:.62}
+.eyebrow{font:700 var(--small)/1.3 var(--txt);letter-spacing:.2em;text-transform:uppercase}
+.dark .eyebrow{color:var(--lime)} .light .eyebrow{color:var(--olive)}
+.pill{align-self:flex-start;font:800 var(--small)/1 var(--txt);letter-spacing:.16em;text-transform:uppercase;padding:14px 22px;border-radius:999px}
+.dark .pill{background:#C8F5421F;color:var(--lime)} .light .pill{background:#E3EBC4;color:var(--olive)}
+.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.g{display:grid;gap:var(--gap)}
+.wide .g4{grid-template-columns:repeat(4,1fr)} .tall .g4{grid-template-columns:repeat(2,1fr)}
+.wide .g3{grid-template-columns:repeat(3,1fr)} .tall .g3{grid-template-columns:1fr}
+.wide .g2{grid-template-columns:repeat(2,1fr)} .tall .g2{grid-template-columns:1fr}
+.wide .g5{grid-template-columns:repeat(5,1fr)} .tall .g5{grid-template-columns:repeat(2,1fr)}
+.wide .g32{grid-template-columns:repeat(3,1fr)} .tall .g32{grid-template-columns:repeat(2,1fr)}
+.split{display:grid;gap:80px;align-items:center}
+.wide .split{grid-template-columns:1fr 1fr} .wide .split.l{grid-template-columns:5fr 6fr} .wide .split.r{grid-template-columns:6fr 5fr}
+.tall .split{grid-template-columns:1fr;gap:56px}
+.split > *{min-width:0}
+.col{display:flex;flex-direction:column;gap:var(--gap)}
+.card{border-radius:28px;padding:34px 34px 30px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.dark .card{background:var(--panel);border:1px solid #232C58}
+.light .card{background:var(--white);border:1px solid var(--line);box-shadow:0 8px 30px #0D122910}
+.card.hl{background:var(--lime)!important;color:var(--ink);border-color:var(--lime)!important}
+.card.ink{background:var(--ink)!important;color:#F2F4FA;border-color:var(--ink)!important}
+.card .n{font:700 var(--num)/1 var(--dis);letter-spacing:-.02em;white-space:nowrap}
+.dark .card .n{color:var(--lime)} .card.hl .n{color:var(--ink)}
+.card .n small{font-size:.42em;letter-spacing:0;margin-left:.15em}
+.card .t{font-size:var(--body);line-height:1.35;opacity:.85}
+.card .src{font-size:18px;line-height:1.3;opacity:.5;margin-top:auto;padding-top:8px}
+.card h3 + .t{margin-top:-2px}
+.tag{align-self:flex-start;font:800 17px/1 var(--txt);letter-spacing:.16em;text-transform:uppercase;padding:10px 14px;border-radius:999px}
+.tag.red{background:#FF6B5726;color:#FF8E80}
+.tag.on{background:#C8F54226;color:var(--lime)}
+.light .tag.on{background:#E3EBC4;color:var(--olive)}
+.tag.soon{background:#5C6B9C33;color:var(--mist)}
+.light .tag.soon{background:#E6E9F2;color:#55608A}
+.band{border-radius:24px;padding:30px 40px;font:600 var(--body)/1.35 var(--txt);text-align:center}
+.dark .band{background:var(--lime);color:var(--ink)} .light .band{background:var(--ink);color:#F2F4FA}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:18px}
+.bub{border-radius:26px;padding:22px 28px;max-width:88%;font-size:var(--body);line-height:1.35}
+.bub b{display:block;font:800 16px var(--txt);letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+.bub.q{align-self:flex-end;background:var(--panel2)}
+.bub.a{align-self:flex-start;background:var(--lime);color:var(--ink);font-weight:600}
+.wave{display:flex;gap:8px;align-items:center;height:70px}
+.wave i{display:block;width:8px;border-radius:4px;background:var(--lime)}
+
+/* dashboard mock */
+.dash{background:#0F1533;border:1px solid #2A3360;border-radius:30px;padding:30px;display:flex;flex-direction:column;gap:16px}
+.dash .dots{display:flex;gap:8px}.dash .dots i{width:12px;height:12px;border-radius:50%;background:#2E3866}
+.dash .g{gap:16px}
+.wide .dash .g{grid-template-columns:repeat(3,1fr)} .tall .dash .g{grid-template-columns:repeat(3,1fr)}
+.kpi{background:#18204A;border-radius:18px;padding:22px}
+.kpi .l{font:700 15px var(--txt);letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+.kpi .v{font:700 34px/1.1 var(--dis);margin-top:10px;white-space:nowrap}
+.kpi .d{font:600 17px var(--txt);margin-top:8px;color:var(--lime)}
+.kpi .d.bad{color:var(--risk)}
+.alert{background:#18204A;border-radius:18px;padding:18px 22px;display:flex;gap:16px;align-items:flex-start;font-size:21px;line-height:1.35}
+.alert i{flex:none;width:14px;height:14px;border-radius:50%;margin-top:7px}
+.alert span{opacity:.6;display:block;font-size:18px}
+
+/* phone */
+.phone{width:520px;max-width:100%;margin:0 auto;border:3px solid #2A3360;border-radius:70px;padding:22px;background:#0F1533}
+.phone .scr{background:#141B3A;border-radius:52px;padding:36px 30px 34px;display:flex;flex-direction:column;gap:18px}
+.phone .notch{width:150px;height:30px;border-radius:20px;background:#0A0E22;margin:0 auto 6px}
+.phone .time{font:700 92px/1 var(--dis);text-align:center}
+.phone .blk{background:#1C2550;border-radius:24px;padding:20px 24px;font-size:22px;line-height:1.38}
+.phone .blk b{display:block;font:800 15px var(--txt);letter-spacing:.16em;opacity:.55;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chips span{border:1px solid #2E3866;border-radius:999px;padding:12px 22px;font-size:var(--small)}
+
+/* compare */
+.cmp{display:grid;gap:var(--gap)}
+.wide .cmp{grid-template-columns:1fr 1fr} .tall .cmp{grid-template-columns:1fr}
+.cmp .card{padding:40px}
+.cmp .head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cmp .big{font:700 92px/1 var(--dis)}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px;font-size:var(--body);line-height:1.35}
+.list li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+.list .x{color:var(--risk);font-weight:800;font-size:30px;line-height:1}
+.list .v{width:34px;height:34px;border-radius:10px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-size:20px;font-weight:800}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:22px}
+.brow{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;font-size:24px}
+.brow .tr{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brow .b{height:36px;border-radius:10px}
+.brow .lab{font:600 21px var(--mono)}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:var(--body)}
+.tbl th{font:700 18px var(--txt);letter-spacing:.16em;text-transform:uppercase;text-align:left;opacity:.55;padding:0 0 14px}
+.tbl td{padding:16px 0;border-top:1px solid #FFFFFF1F}
+.tbl td.o{font-family:var(--mono);opacity:.5;text-decoration:line-through}
+.tbl td.nw{font:700 34px var(--dis);color:var(--lime)}
+.tbl tr.tot td{border-top:2px solid var(--lime)}
+
+/* integrations */
+.rows{display:flex;flex-direction:column}
+.rows div{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:18px 0;border-top:1px solid var(--line);font-size:var(--body)}
+.rows div:first-child{border-top:0}
+.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px;font-size:var(--body);line-height:1.38}
+.ticks li{display:grid;grid-template-columns:40px 1fr;gap:16px}
+.ticks li::before{content:"✓";width:34px;height:34px;border-radius:10px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:20px}
+.dark .ticks li::before{background:var(--lime)}
+
+/* steps */
+.step .no{width:64px;height:64px;border-radius:18px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font:700 26px var(--dis)}
+
+/* price */
+.price .card{padding:40px 38px}
+.price .head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.price .p{font:700 52px/1 var(--dis);letter-spacing:-.02em;white-space:nowrap}
+.price .p span{display:block;margin-top:8px}
+.g5 .card{padding:26px 24px;gap:10px}.g5 h3{font-size:30px}.g5 .t{font-size:22px}
+.tall .scbar{display:none!important}
+.tall .sc{padding:26px 34px;gap:8px}.tall .sc .t{display:none}.tall .sc .m{font-size:20px!important;gap:6px 16px!important;padding-top:10px!important}.tall .sc-h2{font-size:62px}
+.wf{width:100%;height:auto;max-height:450px}
+.price .ob{font:700 18px var(--txt);letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+.price .badge{font:800 16px var(--txt);letter-spacing:.14em;text-transform:uppercase;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--lime)}
+.price .card.ink .badge{background:var(--lime);color:var(--ink)}
+.price .card.ink .p{color:var(--lime)}
+.price .ticks{font-size:24px;gap:14px}
+.price .ticks li{grid-template-columns:34px 1fr}
+.price .ticks li::before{width:30px;height:30px;font-size:17px}
+
+/* founder */
+.fact .n{font:700 84px/1 var(--dis)}
+.qr{background:#fff;border-radius:28px;padding:22px;width:220px;height:220px;flex:none}
+.qr svg{width:100%;height:100%}
+.cta{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.btn{border-radius:26px;padding:30px 40px;font:700 38px/1 var(--dis)}
+.btn.l{background:var(--lime);color:var(--ink)} .btn.d{background:var(--panel);border:1px solid #2A3360}
+svg text{font-family:var(--txt)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg" viewBox="143 83 1657 382"><path fill="currentColor" d="M405.4 353.6 384.92 357.76V160H449.24V400H365.72L227.16 202.56L247.32 198.4V400H183V160H268.76ZM891.76 264.96H979.12Q995.12 264.96 1004.08 257.6Q1013.04 250.24 1013.04 237.12Q1013.04 223.68 1004.08 216.48Q995.12 209.28 979.12 209.28H882.48L912.24 177.6V400H846V160H988.4Q1015.92 160 1036.4 169.76Q1056.88 179.52 1068.4 196.64Q1079.92 213.76 1079.92 237.12Q1079.92 259.84 1068.4 277.12Q1056.88 294.4 1036.4 304Q1015.92 313.6 988.4 313.6H891.76ZM927.6 287.68H1002.16L1088.24 400H1011.44ZM1237.68 160Q1280.24 160 1312.4 174.88Q1344.56 189.76 1362.32 216.8Q1380.08 243.84 1380.08 280Q1380.08 316.16 1362.32 343.2Q1344.56 370.24 1312.4 385.12Q1280.24 400 1237.68 400H1118V160ZM1183.92 372.16 1152.24 341.12H1242.8Q1264.24 341.12 1280.08 333.6Q1295.92 326.08 1304.56 312.32Q1313.2 298.56 1313.2 280Q1313.2 261.12 1304.56 247.52Q1295.92 233.92 1280.08 226.4Q1264.24 218.88 1242.8 218.88H1152.24L1183.92 187.84ZM1414 160H1480.24V400H1414ZM1514 321.28H1581.52Q1583.12 331.2 1590.8 338.56Q1598.48 345.92 1611.44 349.92Q1624.4 353.92 1642 353.92Q1666.32 353.92 1680.4 347.68Q1694.48 341.44 1694.48 329.28Q1694.48 320 1686.48 314.88Q1678.48 309.76 1655.76 307.52L1610.96 303.36Q1561.36 298.88 1538.96 280.8Q1516.56 262.72 1516.56 232Q1516.56 207.04 1531.12 189.76Q1545.68 172.48 1572.08 163.68Q1598.48 154.88 1633.68 154.88Q1668.24 154.88 1695.12 164.64Q1722 174.4 1737.84 192.32Q1753.68 210.24 1754.96 233.92H1687.76Q1686.48 225.28 1679.6 219.04Q1672.72 212.8 1660.88 209.44Q1649.04 206.08 1632.4 206.08Q1610 206.08 1596.88 212Q1583.76 217.92 1583.76 229.44Q1583.76 237.76 1591.6 242.88Q1599.44 248 1619.92 249.92L1667.6 254.72Q1701.84 257.92 1722.32 265.76Q1742.8 273.6 1752.08 287.36Q1761.36 301.12 1761.36 321.6Q1761.36 346.88 1746.32 365.6Q1731.28 384.32 1704.08 394.72Q1676.88 405.12 1640.72 405.12Q1603.6 405.12 1575.28 394.72Q1546.96 384.32 1530.96 365.28Q1514.96 346.24 1514 321.28Z"/><path fill="currentColor" fill-rule="evenodd" d="M513.75 292.25a132.75 132.75 0 1 0 265.5 0a132.75 132.75 0 1 0 -265.5 0zM566.5 292.25a80 80 0 1 0 160 0a80 80 0 1 0 -160 0z"/><circle cx="646.5" cy="161" r="42" fill="currentColor"/><circle cx="646.5" cy="161" r="26.5" fill="#C8F542"/></symbol>
+</svg>
+
+<div class="bar" role="toolbar" aria-label="Формат">
+  <button id="b-wide" type="button" data-f="wide">Ноутбук 16:9</button>
+  <button id="b-tall" type="button" data-f="tall">Телефон 9:16</button>
+  <span>22 слайда</span>
+</div>
+
+<div class="deck wide" id="deck">
+
+<!-- 01 cover -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Для собственников бизнеса</span></div>
+  <div class="main">
+    <span class="pill">Платформа управления бизнесом с ИИ-сотрудниками</span>
+    <h1>Весь бизнес — в одном окне. <em>И в одном голосе.</em></h1>
+    <p class="lead">Прибыль, продажи, реклама и деньги — каждый день. ИИ-сотрудники отвечают клиентам круглосуточно. Голосовой ассистент Елена называет любую цифру бизнеса и её источник.</p>
+  </div>
+  <div class="foot"><span>Елена Дарс · helendars.kz</span><span class="pg">2026</span></div>
+</section>
+
+<!-- 02 pain -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Знакомо?</span></div>
+  <div class="main">
+    <h2>Команда стоит миллионы. <em>А цифры вы видите в&nbsp;конце месяца.</em></h2>
+    <div class="g g4">
+      <div class="card"><span class="tag red">Кадры</span><div class="n">20–60<small>%</small></div><p class="t">новичков теряют на испытательном сроке компании с массовым наймом</p><p class="src">RConf, 2026</p></div>
+      <div class="card"><span class="tag red">Учёт</span><div class="n">75<small>%</small></div><p class="t">малого бизнеса ведут учёт в Excel или на бумаге</p><p class="src">«Моё дело», 2025, 1 400 компаний</p></div>
+      <div class="card"><span class="tag red">Деньги</span><div class="n">1 из 3</div><p class="t">собственников не знает, был ли бизнес в прибыли в прошлом месяце</p><p class="src">Xero, Великобритания, 2025</p></div>
+      <div class="card"><span class="tag red">Вы</span><div class="n">60<small>%</small></div><p class="t">предпринимателей работают больше 60 часов в неделю</p><p class="src">Банк «Точка», 2026</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Исследования России и Великобритании. По Казахстану таких данных нет</span><span class="pg">02 / 22</span></div>
+</section>
+
+<!-- 03 pilot findings -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Реальный кейс</span></div>
+  <div class="main">
+    <p class="eyebrow">Производство и продажа косметики · оборот 40–58 млн ₸ в месяц · 10 279 диалогов</p>
+    <h2>Ни одну из этих цифр <em>собственник не видел</em></h2>
+    <div class="g g4">
+      <div class="card"><div class="n">9,5<small>ч</small></div><p class="t">ждал ответа клиент, написавший ночью</p></div>
+      <div class="card"><div class="n">8,9<small>%</small></div><p class="t">конверсия ночных заявок против 16% днём — почти вдвое хуже</p></div>
+      <div class="card"><div class="n">36<small>%</small></div><p class="t">клиентов замолкали после первого шаблонного ответа менеджера</p></div>
+      <div class="card hl"><div class="n" style="font-size:64px">3,78<small>млн ₸</small></div><p class="t">расходов на рекламу без подтверждения: карта была привязана к чужим кабинетам</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Данные пилота NORDIS, обезличено</span><span class="pg">03 / 22</span></div>
+</section>
+
+<!-- 04 speed -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Скорость ответа</span></div>
+  <div class="main">
+    <h2>Кто ответил первым, <em>тот и продал</em></h2>
+    <div class="g g3">
+      <div class="card"><div class="n">×7</div><p class="t">выше шанс довести заявку до разговора о покупке, если ответить в течение часа, а не позже</p><p class="src">Harvard Business Review, 2011 · 2 241 компания</p></div>
+      <div class="card"><div class="n">×21</div><p class="t">выше шанс, если ответить через 5 минут, а не через 30</p><p class="src">MIT и InsideSales, 2007</p></div>
+      <div class="card ink"><div class="n" style="color:var(--lime)">9,5<small>ч</small></div><p class="t">столько ночная заявка ждала ответа в пилоте до NORDIS. С ИИ-продавцом — около минуты</p><p class="src">Данные пилота</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Ссылки на исследования — в приложении к презентации</span><span class="pg">04 / 22</span></div>
+</section>
+
+<!-- 05 solution -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Решение</span></div>
+  <div class="main">
+    <h2>Собственник, команда и ИИ работают <em>с одними цифрами</em></h2>
+    <div class="g g32">
+      <div class="card"><h3>Деньги</h3><p class="t">ОПиУ и ДДС по месяцам, остатки на счетах, автоматическая сверка с отчётами</p></div>
+      <div class="card"><h3>Продажи и CRM</h3><p class="t">Заказы, клиенты, воронка. Своя CRM внутри платформы или ваша — RetailCRM подключена</p></div>
+      <div class="card"><h3>Реклама</h3><p class="t">Цена заявки и продажи по направлениям, сверка расходов с оплатами</p></div>
+      <div class="card"><h3>Команда</h3><p class="t">Задачи со сроками, KPI и зарплата каждого сотрудника в реальном времени</p></div>
+      <div class="card"><h3>ИИ-сотрудники</h3><p class="t">Отвечают клиентам, подсказывают менеджерам, предупреждают о рисках</p></div>
+      <div class="card ink"><h3 style="color:var(--lime)">Елена</h3><p class="t">Голосовой ассистент собственника: в приложении и в Telegram</p></div>
+    </div>
+    <div class="band">У каждой цифры есть источник и время обновления. Нет данных — платформа так и скажет</div>
+  </div>
+  <div class="foot"><span>Работает в браузере, ставится на телефон как приложение</span><span class="pg">05 / 22</span></div>
+</section>
+
+<!-- 06 dashboard -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Главный экран</span></div>
+  <div class="main">
+    <div class="split r">
+      <div class="dash" aria-label="Пример главного экрана">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="g">
+          <div class="kpi"><div class="l">Выручка</div><div class="v m">5,0 млн ₸</div><div class="d">▲ 8% к прошлой неделе</div></div>
+          <div class="kpi"><div class="l">Чистая прибыль</div><div class="v m">780 тыс ₸</div><div class="d">▲ маржа 15,6%</div></div>
+          <div class="kpi"><div class="l">Себестоимость</div><div class="v m">61%</div><div class="d bad">▲ 2 п.п. — проверить</div></div>
+          <div class="kpi"><div class="l">Заявки</div><div class="v m">23</div><div class="d">ответ за 1 мин</div></div>
+          <div class="kpi"><div class="l">Заказы</div><div class="v m">6</div><div class="d">конверсия 26%</div></div>
+          <div class="kpi"><div class="l">План месяца</div><div class="v m">92%</div><div class="d">в графике</div></div>
+        </div>
+        <div class="alert"><i style="background:var(--risk)"></i><div>Ждут оплаты 4 счёта на 1,2 млн ₸<span>задача поставлена менеджеру</span></div></div>
+        <div class="alert"><i style="background:var(--amber)"></i><div>Расход на рекламу по таблице на 6% выше оплаченного<span>открыть сверку</span></div></div>
+      </div>
+      <div class="col">
+        <h2>Все цифры бизнеса — <em>каждый день</em>, а&nbsp;не в конце месяца</h2>
+        <p class="lead">Выручка, прибыль, план, заявки и деньги на счетах обновляются сами. Где что-то идёт не так, платформа предупреждает и предлагает, что проверить.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Экран для примера, цифры условные</span><span class="pg">06 / 22</span></div>
+</section>
+
+<!-- 07 money -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Деньги</span></div>
+  <div class="main">
+    <div class="split l">
+      <div class="col">
+        <span class="tag red">Кассовый разрыв</span>
+        <h2>Прибыль на бумаге — <em>не деньги на счёте</em></h2>
+        <p class="lead">Платформа ведёт ОПиУ и движение денег. ИИ-финансист строит платёжный календарь и показывает разрыв за 7–14 дней, пока есть время перенести закупку или ускорить оплату.</p>
+        <span class="tag soon">ИИ-финансист · в запуске</span>
+      </div>
+      <div class="card" style="padding:30px">
+        <svg viewBox="0 0 800 400" role="img" aria-label="Остаток денег на 14 дней: без контроля уходит в минус 3,2 млн на 9-й день, с NORDIS закупка перенесена и остаток остаётся выше нуля" style="width:100%;height:auto">
+          <line x1="40" y1="250" x2="760" y2="250" stroke="#5C6B9C" stroke-dasharray="6 8" stroke-width="2"/>
+          <text x="40" y="238" fill="#A3ACCD" font-size="20">0 ₸</text>
+          <polyline fill="none" stroke="#5C6B9C" stroke-width="5" stroke-linejoin="round" points="290,205 340,245 390,290 440,315 490,325 540,288 590,232 640,170"/>
+          <polyline fill="none" stroke="#C8F542" stroke-width="6" stroke-linejoin="round" points="40,120 90,104 140,140 190,132 240,160 290,205 340,214 390,222 440,214 490,200 540,190 590,180 640,170 690,150 740,128"/>
+          <circle cx="490" cy="325" r="11" fill="#FF6B57"/>
+          <text x="510" y="362" fill="#FF6B57" font-size="24" font-weight="700">−3,2 млн ₸ · день 9</text>
+          <text x="330" y="196" fill="#C8F542" font-size="22" font-weight="700">закупка перенесена</text>
+          <text x="40" y="392" fill="#A3ACCD" font-size="20">сегодня</text>
+          <text x="368" y="392" fill="#A3ACCD" font-size="20">+7 дн</text>
+          <text x="690" y="392" fill="#A3ACCD" font-size="20">+14 дн</text>
+          <circle cx="60" cy="30" r="9" fill="#C8F542"/><text x="78" y="38" fill="#F2F4FA" font-size="22">с NORDIS</text>
+          <circle cx="240" cy="30" r="9" fill="#5C6B9C"/><text x="258" y="38" fill="#F2F4FA" font-size="22">без контроля</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Пример, цифры условные</span><span class="pg">07 / 22</span></div>
+</section>
+
+<!-- 08 Elena -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Голосовой ассистент</span></div>
+  <div class="main">
+    <div class="split l">
+      <div class="col">
+        <p class="eyebrow">Елена · голосом и в чате</p>
+        <h2>Спросите — и услышите <em>ответ с цифрой</em></h2>
+        <p class="lead">Не нужно открывать отчёты и звонить бухгалтеру. Елена берёт цифры только из данных бизнеса и называет источник. Работает в приложении и в Telegram.</p>
+        <div class="wave" aria-hidden="true"><i style="height:24px"></i><i style="height:44px"></i><i style="height:30px"></i><i style="height:62px"></i><i style="height:40px"></i><i style="height:70px"></i><i style="height:36px"></i><i style="height:54px"></i><i style="height:26px"></i><i style="height:46px"></i><i style="height:30px"></i><i style="height:58px"></i><i style="height:22px"></i></div>
+      </div>
+      <div class="chat">
+        <div class="bub q"><b>Вы</b>Какая выручка была вчера?</div>
+        <div class="bub a"><b>Елена</b>3,2 млн ₸ — на 12% больше, чем в прошлый вторник. Источник: RetailCRM.</div>
+        <div class="bub q"><b>Вы</b>Сколько потратили на рекламу в октябре?</div>
+        <div class="bub a"><b>Елена</b>1,02 млн ₸. Цена заявки снизилась на 15%.</div>
+        <div class="bub q"><b>Вы</b>Какую выручку закрыл филиал в Шымкенте за прошлый месяц?</div>
+        <div class="bub a"><b>Елена</b>8,4 млн ₸, план выполнен на 96%.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Пример диалога, цифры условные</span><span class="pg">08 / 22</span></div>
+</section>
+
+<!-- 09 briefing -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Утренний брифинг</span></div>
+  <div class="main">
+    <div class="split l">
+      <div class="col">
+        <p class="eyebrow">08:00 · вы за рулём</p>
+        <h2>Пока вы едете на работу, <em>Елена рассказывает</em> главное за день</h2>
+        <div class="chips"><span>Продажи</span><span>План</span><span>Деньги</span><span>Реклама</span><span>Предупреждения</span><span>Задачи на сегодня</span><span>Итоги команды</span></div>
+        <p class="body muted">7 блоков за 2–3 минуты</p>
+      </div>
+      <div class="phone" aria-label="Пример брифинга на телефоне">
+        <div class="scr">
+          <div class="notch"></div>
+          <div class="time m">08:00</div>
+          <div class="blk"><b>ВЧЕРА</b>Выручка 5 млн ₸, чистая прибыль 780 тыс. Заявок 23, оплачено 6.</div>
+          <div class="blk"><b>СЕГОДНЯ</b>4 счёта ждут оплаты на 1,2 млн ₸. У 11 клиентов скоро закончится товар — задачи у менеджеров.</div>
+          <div class="blk"><b>ПРЕДУПРЕЖДЕНИЕ</b>Себестоимость выросла на 2 п.п. Проверьте закупочные цены поставщика.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Пример брифинга, цифры условные</span><span class="pg">09 / 22</span></div>
+</section>
+
+<!-- 10 AI team -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">ИИ-сотрудники</span></div>
+  <div class="main">
+    <h2>Команда, которую не нужно <em>искать, обучать и удерживать</em></h2>
+    <div class="g g5">
+      <div class="card"><span class="tag on">Работает</span><h3>Продавец</h3><p class="t">отвечает в WhatsApp и Instagram, ведёт до оплаты</p></div>
+      <div class="card"><span class="tag on">Работает</span><h3>Наставник</h3><p class="t">подсказывает менеджеру, как ответить и поднять чек</p></div>
+      <div class="card"><span class="tag on">Работает</span><h3>Санди</h3><p class="t">10-минутные перерывы для команды, срез настроения руководителю</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>РОП</h3><p class="t">план, конверсия, разбор потерянных клиентов</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>Таргетолог</h3><p class="t">цена заявки, останавливает неокупаемое</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>Аналитик</h3><p class="t">почему выросли или упали продажи и прибыль</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>Финансист</h3><p class="t">ОПиУ, ДДС, прогноз денег, сверка с банком</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>Бизнес-ассистент</h3><p class="t">встречи, протоколы, контроль поручений</p></div>
+      <div class="card"><span class="tag soon">В запуске</span><h3>Маркетолог</h3><p class="t">акции и тексты рассылок по данным продаж</p></div>
+      <div class="card hl"><span class="tag" style="background:#0D122914;color:var(--ink)">Работает</span><h3>Елена</h3><p class="t">голосовой ассистент собственника</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Все работают на одних данных бизнеса. Решения остаются за людьми</span><span class="pg">10 / 22</span></div>
+</section>
+
+<!-- 11 AI seller -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">ИИ-продавец</span></div>
+  <div class="main">
+    <h2>Ваш бизнес больше не спит: <em>продажи 24/7</em></h2>
+    <div class="cmp">
+      <div class="card">
+        <div class="head"><h3 class="muted">Было</h3><span class="big m" style="color:var(--risk)">02:00</span></div>
+        <ul class="list">
+          <li><span class="x">×</span><span>Ночная заявка ждёт ответа до 9,5 часа и продаётся вдвое реже: 8,9% против 16%</span></li>
+          <li><span class="x">×</span><span>Реклама оплачена, а клиент купил у конкурента</span></li>
+          <li><span class="x">×</span><span>36% клиентов уходят после первого шаблонного ответа</span></li>
+        </ul>
+      </div>
+      <div class="card hl">
+        <div class="head"><h3>Стало с NORDIS</h3><span class="big">24/7</span></div>
+        <ul class="list">
+          <li><span class="v">✓</span><span>Ночью отвечает за минуту и сам ведёт клиента до оплаты</span></li>
+          <li><span class="v">✓</span><span>Днём подсказывает менеджеру и забирает клиента после двух просрочек</span></li>
+          <li><span class="v">✓</span><span>Отвечает по вашей базе знаний; неизвестную цену не называет, а передаёт человеку</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Данные «Было» — пилот NORDIS</span><span class="pg">11 / 22</span></div>
+</section>
+
+<!-- 12 ads -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Реклама</span></div>
+  <div class="main">
+    <div class="split l">
+      <div class="col">
+        <h2>Рекламный бюджет идёт <em>только в то, что продаёт</em></h2>
+        <p class="lead">Цена заявки и продажи по каждому направлению. Каждый месяц расход таргетологов сверяется с оплатами.</p>
+        <div class="g g2">
+          <div class="card hl"><div class="n" style="font-size:56px">3,78<small>млн ₸</small></div><p class="t">неподтверждённых расходов нашли в пилоте</p></div>
+          <div class="card"><div class="n" style="font-size:56px">5<small>%</small></div><p class="t">порог расхождения, после которого включается проверка</p></div>
+        </div>
+      </div>
+      <div class="card" style="padding:40px">
+        <p class="eyebrow" style="color:var(--mist)">Цена заявки по креативам</p>
+        <div class="bars">
+          <div class="brow"><span>Креатив A</span><div class="tr"><div class="b" style="width:38%;background:var(--lime)"></div><span class="lab" style="color:var(--lime)">1 200 ₸ · +40% бюджета</span></div></div>
+          <div class="brow"><span>Креатив B</span><div class="tr"><div class="b" style="width:46%;background:var(--lime)"></div><span class="lab" style="color:var(--lime)">1 450 ₸ · +25%</span></div></div>
+          <div class="brow"><span>Креатив C</span><div class="tr"><div class="b" style="width:60%;background:var(--steel)"></div><span class="lab" style="color:var(--mist)">1 900 ₸ · тест</span></div></div>
+          <div class="brow"><span class="muted">Креатив D</span><div class="tr"><div class="b" style="width:78%;background:#FF6B5755"></div><span class="lab" style="color:var(--risk)">3 800 ₸ · стоп</span></div></div>
+          <div class="brow"><span class="muted">Креатив E</span><div class="tr"><div class="b" style="width:92%;background:#FF6B5755"></div><span class="lab" style="color:var(--risk)">5 100 ₸ · стоп</span></div></div>
+        </div>
+        <span class="tag soon" style="margin-top:28px">Автоостановка: ИИ-таргетолог · в запуске</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Распределение по креативам — пример, цифры условные</span><span class="pg">12 / 22</span></div>
+</section>
+
+<!-- 13 team -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Команда</span></div>
+  <div class="main">
+    <h2>У каждого сотрудника <em>свой кабинет</em></h2>
+    <div class="g g32">
+      <div class="card"><h3>Задачи со сроками</h3><p class="t">Платформа сама ставит задачи по заказам и клиентам — с готовым текстом в тоне бренда</p></div>
+      <div class="card"><h3>Зарплата онлайн</h3><p class="t">Оклад, процент, каждый KPI и прогноз на конец месяца</p></div>
+      <div class="card"><h3>Повторные продажи</h3><p class="t">Клиенты, у которых скоро закончится товар, сами попадают в задачи</p></div>
+      <div class="card"><h3>Итоги дня</h3><p class="t">Руководитель получает в Telegram, кто сколько сделал вовремя</p></div>
+      <div class="card"><h3>Игра и кристаллы</h3><p class="t">Серии дней без просрочек, обмен кристаллов на деньги к зарплате</p></div>
+      <div class="card"><h3>Роли и доступы</h3><p class="t">Финансы и прибыль видит только собственник, зарплату — только сам сотрудник</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Руководитель видит работу команды в цифрах, без чтения переписок</span><span class="pg">13 / 22</span></div>
+</section>
+
+<!-- 14 control -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Контроль</span></div>
+  <div class="main">
+    <h2>Делегирование — <em>в рамках ваших правил</em></h2>
+    <div class="split l">
+      <svg viewBox="0 0 600 600" role="img" aria-label="Три круга полномочий: решает сам, с подтверждением, только вы" style="width:100%;max-width:560px;height:auto;margin:0 auto">
+        <circle cx="300" cy="300" r="290" fill="#0D1229"/>
+        <circle cx="300" cy="300" r="205" fill="#5C6B9C"/>
+        <circle cx="300" cy="300" r="118" fill="#C8F542"/>
+        <text x="300" y="52" text-anchor="middle" fill="#C8F542" font-size="28" font-weight="700">Только вы</text>
+        <text x="300" y="138" text-anchor="middle" fill="#FFFFFF" font-size="28" font-weight="700">С подтверждением</text>
+        <text x="300" y="296" text-anchor="middle" fill="#0D1229" font-size="34" font-weight="800">Решает</text>
+        <text x="300" y="336" text-anchor="middle" fill="#0D1229" font-size="34" font-weight="800">сам</text>
+      </svg>
+      <div class="col">
+        <div class="card"><span class="tag on" style="background:var(--lime);color:var(--ink)">Решает сам</span><p class="t">Ответы клиентам и дожим, задачи менеджерам, напоминания об оплате, остановка рекламы при сбое</p></div>
+        <div class="card"><span class="tag soon" style="background:#5C6B9C;color:#fff">Предлагает — вы подтверждаете</span><p class="t">Рост рекламного бюджета, скидка больше заданной, изменение цен, закупка сверх нормы</p></div>
+        <div class="card ink"><span class="tag on">Только вы</span><p class="t">Договоры и крупные платежи, найм и увольнение, кредиты, стратегия</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Все изменения настроек и зарплат записываются в журнал действий</span><span class="pg">14 / 22</span></div>
+</section>
+
+<!-- 15 security & integrations -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Интеграции и безопасность</span></div>
+  <div class="main">
+    <h2>Забираем данные там, где они есть. <em>Храним в Казахстане</em></h2>
+    <div class="split">
+      <div class="card">
+        <div class="rows">
+          <div><span>RetailCRM — заказы, клиенты, остатки</span><span class="tag on">Работает</span></div>
+          <div><span>WhatsApp и Instagram через CRM</span><span class="tag on">Работает</span></div>
+          <div><span>Google Таблицы — ОПиУ, ДДС, реклама</span><span class="tag on">Работает</span></div>
+          <div><span>Telegram — вход, итоги, уведомления</span><span class="tag on">Работает</span></div>
+          <div><span>Robokassa — ссылки на оплату</span><span class="tag soon">Готово</span></div>
+          <div><span>Kaspi, Halyk, кабинеты Meta</span><span class="tag soon">В разработке</span></div>
+        </div>
+      </div>
+      <ul class="ticks">
+        <li>Сервер в Казахстане, данные каждого бизнеса изолированы</li>
+        <li>Права проверяются на сервере при каждом запросе, а не только скрытием кнопок</li>
+        <li>Вход без паролей — по одноразовому коду в Telegram</li>
+        <li>Ключи CRM и платёжных систем хранятся в зашифрованном виде</li>
+        <li>ИИ не видит лишнего: телефоны клиентов скрыты в журналах</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>Любая другая система с API или выгрузкой — подключаем под заказ</span><span class="pg">15 / 22</span></div>
+</section>
+
+<!-- 16 case profit -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Реальный кейс</span></div>
+  <div class="main">
+    <p class="eyebrow">Производство и продажа косметики · выручка 42 млн ₸ в месяц</p>
+    <h2>Чистая прибыль <span class="muted">5,2</span> → <em>10,3 млн ₸</em></h2>
+    <div class="split l" style="gap:56px;align-items:start">
+      <table class="tbl">
+        <thead><tr><th></th><th>До</th><th>С NORDIS</th></tr></thead>
+        <tbody>
+          <tr><td>Выручка</td><td class="o">42,1 млн</td><td class="nw">46,3 млн</td></tr>
+          <tr><td>Цена клиента</td><td class="o">4 612 ₸</td><td class="nw">3 828 ₸</td></tr>
+          <tr><td>Реклама</td><td class="o">14,0 млн</td><td class="nw">12,0 млн</td></tr>
+          <tr><td>Зарплаты с налогами</td><td class="o">5,8 млн</td><td class="nw">3,7 млн</td></tr>
+          <tr><td>NORDIS: Бизнес + 1%</td><td class="o">—</td><td class="nw">2,2 млн</td></tr>
+          <tr class="tot"><td><b>Чистая прибыль</b></td><td class="o">5,2 млн</td><td class="nw">10,3 млн</td></tr>
+        </tbody>
+      </table>
+      <div class="card" style="padding:28px 24px 18px">
+        <p class="eyebrow" style="color:var(--mist)">Откуда +5,1 млн ₸ в месяц</p>
+        <svg viewBox="0 0 640 470" role="img" aria-label="Каскад: было 5,2 млн, плюс ФОТ 2,1, плюс реклама 2,0, плюс рост продаж 3,13, минус комиссии 0,37, налоги 0,10, NORDIS 1,68, стало 10,27 млн" class="wf"><line x1="0" y1="380" x2="640" y2="380" stroke="#2E3866" stroke-width="2"/><rect x="24" y="241.9" width="52" height="138.1" rx="7" fill="#5C6B9C"/><text x="50.0" y="229.9" text-anchor="middle" fill="#F2F4FA" font-size="19" font-weight="700">5,20</text><line x1="76" y1="241.9" x2="102" y2="241.9" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="50.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Было</text><rect x="102" y="186.2" width="52" height="55.8" rx="7" fill="#C8F542"/><text x="128.0" y="174.2" text-anchor="middle" fill="#F2F4FA" font-size="19" font-weight="700">+2,10</text><line x1="154" y1="186.2" x2="180" y2="186.2" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="128.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">ФОТ</text><rect x="180" y="133.1" width="52" height="53.1" rx="7" fill="#C8F542"/><text x="206.0" y="121.1" text-anchor="middle" fill="#F2F4FA" font-size="19" font-weight="700">+2,00</text><line x1="232" y1="133.1" x2="258" y2="133.1" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="206.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Реклама</text><rect x="258" y="50.0" width="52" height="83.1" rx="7" fill="#C8F542"/><text x="284.0" y="38.0" text-anchor="middle" fill="#F2F4FA" font-size="19" font-weight="700">+3,13</text><line x1="310" y1="50.0" x2="336" y2="50.0" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="284.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Рост</text><text x="284.0" y="432" text-anchor="middle" fill="#A3ACCD" font-size="17">продаж</text><rect x="336" y="50.0" width="52" height="9.8" rx="7" fill="#FF6B57"/><text x="362.0" y="38.0" text-anchor="middle" fill="#FF8E80" font-size="19" font-weight="700">−0,37</text><line x1="388" y1="59.8" x2="414" y2="59.8" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="362.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Комиссии</text><text x="362.0" y="432" text-anchor="middle" fill="#A3ACCD" font-size="17">банков</text><rect x="414" y="59.8" width="52" height="3.0" rx="7" fill="#FF6B57"/><text x="440.0" y="47.8" text-anchor="middle" fill="#FF8E80" font-size="19" font-weight="700">−0,10</text><line x1="466" y1="62.5" x2="492" y2="62.5" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="440.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Налоги</text><rect x="492" y="62.5" width="52" height="44.6" rx="7" fill="#FF6B57"/><text x="518.0" y="50.5" text-anchor="middle" fill="#FF8E80" font-size="19" font-weight="700">−1,68</text><line x1="544" y1="107.1" x2="570" y2="107.1" stroke="#5C6B9C" stroke-dasharray="3 4"/><text x="518.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">NORDIS</text><rect x="570" y="107.3" width="52" height="272.7" rx="7" fill="#C8F542"/><text x="596.0" y="95.3" text-anchor="middle" fill="#F2F4FA" font-size="19" font-weight="700">10,27</text><text x="596.0" y="410" text-anchor="middle" fill="#A3ACCD" font-size="17">Стало</text></svg>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Обезличено. База — факт месяца, расчёт по пессимистичному сценарию: выручка +10%. Вместо 2 менеджеров — ИИ-продавец, вместо РОПа и таргетолога — ИИ</span><span class="pg">16 / 22</span></div>
+</section>
+
+<!-- 17 scenarios -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Экономический эффект</span></div>
+  <div class="main">
+    <h2 class="sc-h2">Три сценария. <em>Даже худший</em> окупает NORDIS в 3 раза</h2>
+    <div class="g g3">
+      <div class="card sc">
+  <p class="eyebrow" style="color:var(--mist)">Пессимистичный</p>
+  <h3>выручка +10%</h3>
+  <div class="scbar" style="position:relative;height:16px;border-radius:8px;background:#232C58;margin-top:6px"><div style="position:absolute;left:0;top:0;bottom:0;width:67%;border-radius:8px;background:var(--lime)"></div><div style="position:absolute;left:0;top:0;bottom:0;width:34%;border-radius:8px;background:var(--steel)"></div></div>
+  <div class="scbar" style="display:flex;justify-content:space-between;font-size:18px;opacity:.6"><span>было 5,2</span><span>стало 10,3</span></div>
+  <div class="n">+5,1<small>млн ₸</small></div>
+  <p class="t">к чистой прибыли в месяц</p>
+  <div class="m" style="display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:22px;border-top:1px solid #FFFFFF1F;padding-top:16px">
+    <span style="font-family:var(--txt);opacity:.7">За год</span><b>+61 млн ₸</b>
+    <span style="font-family:var(--txt);opacity:.7">Рост прибыли</span><b>+98%</b>
+    <span style="font-family:var(--txt);opacity:.7">1 ₸ в NORDIS возвращает</span><b>3,0 ₸</b>
+  </div>
+</div>
+<div class="card sc" style="border:3px solid var(--lime);background:var(--panel2)">
+  <p class="eyebrow" style="color:var(--mist)">Реалистичный</p>
+  <h3>выручка +18,6%</h3>
+  <div class="scbar" style="position:relative;height:16px;border-radius:8px;background:#232C58;margin-top:6px"><div style="position:absolute;left:0;top:0;bottom:0;width:81%;border-radius:8px;background:var(--lime)"></div><div style="position:absolute;left:0;top:0;bottom:0;width:34%;border-radius:8px;background:var(--steel)"></div></div>
+  <div class="scbar" style="display:flex;justify-content:space-between;font-size:18px;opacity:.6"><span>было 5,2</span><span>стало 12,5</span></div>
+  <div class="n">+7,3<small>млн ₸</small></div>
+  <p class="t">к чистой прибыли в месяц</p>
+  <div class="m" style="display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:22px;border-top:1px solid #FFFFFF1F;padding-top:16px">
+    <span style="font-family:var(--txt);opacity:.7">За год</span><b>+88 млн ₸</b>
+    <span style="font-family:var(--txt);opacity:.7">Рост прибыли</span><b>+140%</b>
+    <span style="font-family:var(--txt);opacity:.7">1 ₸ в NORDIS возвращает</span><b>4,3 ₸</b>
+  </div>
+</div>
+<div class="card sc">
+  <p class="eyebrow" style="color:var(--mist)">Оптимистичный</p>
+  <h3>выручка +30%</h3>
+  <div class="scbar" style="position:relative;height:16px;border-radius:8px;background:#232C58;margin-top:6px"><div style="position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:8px;background:var(--lime)"></div><div style="position:absolute;left:0;top:0;bottom:0;width:34%;border-radius:8px;background:var(--steel)"></div></div>
+  <div class="scbar" style="display:flex;justify-content:space-between;font-size:18px;opacity:.6"><span>было 5,2</span><span>стало 15,4</span></div>
+  <div class="n">+10,2<small>млн ₸</small></div>
+  <p class="t">к чистой прибыли в месяц</p>
+  <div class="m" style="display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:22px;border-top:1px solid #FFFFFF1F;padding-top:16px">
+    <span style="font-family:var(--txt);opacity:.7">За год</span><b>+123 млн ₸</b>
+    <span style="font-family:var(--txt);opacity:.7">Рост прибыли</span><b>+197%</b>
+    <span style="font-family:var(--txt);opacity:.7">1 ₸ в NORDIS возвращает</span><b>6,0 ₸</b>
+  </div>
+</div>
+    </div>
+    <div class="band">Без роста продаж — только экономия на зарплатах и рекламе — прибыль вырастает на 2,4 млн ₸ в месяц</div>
+  </div>
+  <div class="foot"><span>Тот же кейс: выручка 42 млн ₸, прибыль 5,2 млн ₸. Ваш сценарий покажут 10 бесплатных дней</span><span class="pg">17 / 22</span></div>
+</section>
+
+<!-- 18 implementation -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Внедрение</span></div>
+  <div class="main">
+    <h2>Мы внедряем и сопровождаем. <em>Вам не нужно ничего настраивать</em></h2>
+    <div class="g g4">
+      <div class="card step"><span class="no">1</span><h3>Разбор данных</h3><p class="t">Собираем таблицы, CRM и отчёты в одну систему. В пилоте 8 файлов и 122 листа стали одной базой</p></div>
+      <div class="card step"><span class="no">2</span><h3>Режим наблюдения</h3><p class="t">Платформа работает в фоне: ставит задачи, считает KPI и воронку. Видно «до и после»</p></div>
+      <div class="card step"><span class="no">3</span><h3>Переезд команды</h3><p class="t">Приглашения сотрудникам, уведомления, программа лояльности и ИИ-сотрудники</p></div>
+      <div class="card step"><span class="no">4</span><h3>Сопровождение</h3><p class="t">План-факт каждый месяц, доработки по обратной связи, новые ИИ-сотрудники</p></div>
+    </div>
+    <div class="band">Запуск за 3–4 недели. Роли, KPI, тексты, этапы воронки и правила ИИ — под процессы вашего бизнеса</div>
+  </div>
+  <div class="foot"><span>Недостающие модули — склад, производство, документы, HR — дописываем индивидуально</span><span class="pg">18 / 22</span></div>
+</section>
+
+<!-- 19 founder -->
+<section class="s light">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Кто стоит за NORDIS</span></div>
+  <div class="main">
+    <div class="split l">
+      <div class="col">
+        <p class="eyebrow">Основатель и разработчик</p>
+        <h1 style="font-size:var(--h2)">Елена Дарс</h1>
+        <p class="lead">Я финансист для бизнеса. У меня было своё производство, я знаю путь собственника изнутри. Поэтому NORDIS считает то, что действительно нужно владельцу, — и я сама разрабатываю платформу.</p>
+      </div>
+      <div class="g g2 fact">
+        <div class="card"><div class="n">12+</div><p class="t">лет в финансах бизнеса</p></div>
+        <div class="card"><div class="n">70+</div><p class="t">подготовленных проектов</p></div>
+        <div class="card"><div class="n">120<small style="font-size:.4em">млрд ₸</small></div><p class="t">крупнейший проект</p></div>
+        <div class="card hl"><div class="n" style="font-size:64px">ICF EBRD</div><p class="t">ментор</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>helendars.kz</span><span class="pg">19 / 22</span></div>
+</section>
+
+<!-- 20 pricing -->
+<section class="s light price">
+  <div class="top"><svg role="img" aria-label="NORDIS" style="color:var(--ink)"><use href="#lg"/></svg><span class="k">Пакеты</span></div>
+  <div class="main">
+    <h2>Пакеты <em>NORDIS</em></h2>
+    <div class="g g3">
+      <div class="card">
+        <div class="head"><h3>Лайт</h3><span class="badge">Старт</span></div>
+        <p class="ob">Оборот 5–20 млн ₸</p>
+        <p class="p m">900 000 ₸<span style="font:500 22px var(--txt);opacity:.6"> / мес</span></p>
+        <ul class="ticks"><li>Платформа: все цифры каждый день</li><li>Елена: голосовой ассистент и утренний брифинг</li><li>1 ИИ-сотрудник: продавец</li><li>10 дней бесплатно</li></ul>
+      </div>
+      <div class="card ink">
+        <div class="head"><h3>Бизнес</h3><span class="badge">Рекомендую</span></div>
+        <p class="ob">Оборот 20–100 млн ₸</p>
+        <p class="p m">2 000 000 ₸<span style="font:500 22px var(--txt);opacity:.6"> / мес</span></p>
+        <ul class="ticks"><li>Всё из пакета Лайт</li><li>3 ИИ-сотрудника: продавец, РОП, таргетолог</li><li>Пакет из кейса: +5,1 млн ₸ чистой прибыли в месяц</li></ul>
+      </div>
+      <div class="card">
+        <div class="head"><h3>Премиум</h3><span class="badge">Нон-стоп</span></div>
+        <p class="ob">Оборот от 100 млн ₸</p>
+        <p class="p m">3 300 000 ₸<span style="font:500 22px var(--txt);opacity:.6"> / мес</span></p>
+        <ul class="ticks"><li>Всё из пакета Бизнес</li><li>5 ИИ-сотрудников</li><li>Голосовой продавец на телефоне</li><li>Сопровождение 24/7</li><li>Каждый следующий ИИ-сотрудник — 200 000 ₸</li></ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Во всех пакетах: +1% с продаж, которые закрыл ИИ-продавец</span><span class="pg">20 / 22</span></div>
+</section>
+
+<!-- 21 trial -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Вход без риска</span></div>
+  <div class="main">
+    <h2><em>10 дней бесплатно</em> на пакете Лайт. Не понравилось — не платите ничего</h2>
+    <p class="lead">Договор подписываем сразу. Мы обучаем, внедряем и проверяем: ИИ-продавец работает на ваших живых заявках.</p>
+    <div class="g g3">
+      <div class="card step"><span class="no">1–3</span><h3>Оцифровка</h3><p class="t">Загружаем ваши данные. Елена рассказывает «год вашего бизнеса в цифрах» и показывает скрытые потери</p></div>
+      <div class="card step"><span class="no">4–10</span><h3>Продажи на автопилоте</h3><p class="t">ИИ-продавец отвечает на живые заявки. Каждое утро — брифинг и прибыль за вчера</p></div>
+      <div class="card step hl"><span class="no" style="background:var(--ink);color:var(--lime)">10</span><h3>Решение по цифрам</h3><p class="t">Итог «было → стало». Понравилось — договор начинает действовать. Нет — отключаем без оплаты</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>NORDIS</span><span class="pg">21 / 22</span></div>
+</section>
+
+<!-- 22 CTA -->
+<section class="s dark">
+  <div class="top"><svg role="img" aria-label="NORDIS"><use href="#lg"/></svg><span class="k">Следующий шаг</span></div>
+  <div class="main">
+    <span class="pill">20 минут разбора · 10 дней бесплатно</span>
+    <h1>Начните с <em>10 дней</em> бесплатно</h1>
+    <p class="lead">За 20 минут покажу, где ваш бизнес теряет деньги и какой пакет у вас окупится. Дальше — 10 дней NORDIS на ваших живых заявках. Цифры «было → стало» вы увидите сами.</p>
+    <div class="cta">
+      <div class="qr" aria-label="QR-код WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250" class="segno"><path transform="scale(10)" class="qrline" stroke="#0d1229" d="M0 0.5h7m1 0h3m1 0h2m2 0h1m1 0h7m-25 1h1m5 0h1m1 0h3m1 0h1m1 0h1m3 0h1m5 0h1m-25 1h1m1 0h3m1 0h1m1 0h3m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-25 1h1m1 0h3m1 0h1m3 0h1m1 0h3m3 0h1m1 0h3m1 0h1m-25 1h1m1 0h3m1 0h1m1 0h2m8 0h1m1 0h3m1 0h1m-25 1h1m5 0h1m2 0h3m1 0h1m4 0h1m5 0h1m-25 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-16 1h2m1 0h5m-17 1h1m2 0h7m1 0h1m3 0h1m1 0h1m2 0h1m1 0h3m-24 1h2m1 0h2m2 0h4m3 0h2m2 0h5m-24 1h1m2 0h1m1 0h3m1 0h1m1 0h3m1 0h5m1 0h1m2 0h1m-24 1h3m6 0h1m4 0h1m2 0h2m1 0h4m-24 1h3m1 0h2m1 0h2m2 0h1m1 0h2m1 0h2m5 0h1m-25 1h1m1 0h2m3 0h3m2 0h1m2 0h1m4 0h1m2 0h1m-24 1h2m1 0h2m1 0h3m3 0h2m1 0h1m1 0h1m2 0h5m-25 1h1m7 0h2m2 0h1m1 0h2m3 0h1m1 0h2m1 0h1m-25 1h1m1 0h6m1 0h1m1 0h4m1 0h5m1 0h2m-16 1h2m1 0h2m1 0h1m1 0h1m3 0h1m1 0h2m-24 1h7m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m3 0h1m-25 1h1m5 0h1m1 0h4m1 0h1m2 0h1m3 0h1m2 0h2m-25 1h1m1 0h3m1 0h1m1 0h1m6 0h6m-21 1h1m1 0h3m1 0h1m1 0h5m2 0h4m4 0h2m-25 1h1m1 0h3m1 0h1m4 0h1m1 0h1m3 0h1m2 0h5m-25 1h1m5 0h1m7 0h1m4 0h2m1 0h3m-25 1h7m1 0h2m1 0h1m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1"/></svg></div>
+      <div class="col" style="gap:20px">
+        <span class="btn l m">WhatsApp +7 702 268 17 77</span>
+        <span class="btn d">helendars.kz</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Елена Дарс · основатель NORDIS</span><span class="pg">22 / 22</span></div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var deck=document.getElementById('deck');
+  var slides=[].slice.call(deck.querySelectorAll(':scope > section.s'));
+  slides.forEach(function(s){var f=document.createElement('div');f.className='frame';s.parentNode.insertBefore(f,s);f.appendChild(s);});
+  var frames=[].slice.call(deck.querySelectorAll('.frame'));
+  var mode=(location.hash||'').replace('#','');
+  var print=mode.indexOf('print-')===0;
+  if(print){document.body.classList.add('print');mode=mode.slice(6);}
+  if(mode!=='wide'&&mode!=='tall'){mode=window.innerWidth<700?'tall':'wide';}
+  function fit(){
+    var W=mode==='wide'?1920:1080;
+    frames.forEach(function(f){f.style.setProperty('--k',print?1:f.clientWidth/W);});
+  }
+  function set(m){
+    mode=m;deck.classList.remove('wide','tall');deck.classList.add(m);
+    ['wide','tall'].forEach(function(x){document.getElementById('b-'+x).setAttribute('aria-pressed',String(x===m));});
+    requestAnimationFrame(fit);
+  }
+  document.querySelectorAll('.bar button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.f);});});
+  window.addEventListener('resize',fit);
+  set(mode);
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fit);}
+})();
+</script>
