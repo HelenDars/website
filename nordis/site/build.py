@@ -6,7 +6,8 @@ SRC, OUT = HERE / "src", HERE / "public"
 DOMAIN = "https://nordis.kz"
 
 NAV = [("ii-sotrudniki", "ИИ-сотрудники"), ("sobstvenniku", "Собственнику"), ("prodazhi", "Продажи и команда"),
-       ("bezopasnost", "Безопасность"), ("pakety", "Пакеты")]
+       ("otrasli", "Для кого"), ("vnedrenie", "Внедрение"), ("pakety", "Пакеты")]
+FOOTNAV = NAV + [("bezopasnost", "Безопасность"), ("kalkulyator", "Калькулятор выгоды")]
 
 HEAD = """<!doctype html>
 <html lang="ru">
@@ -38,7 +39,7 @@ def header(active):
     return f"""<header class="hdr"><div class="wrap">
   <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="104" height="24"></a>
   <nav class="nav" id="nav" aria-label="Разделы">{links}</nav>
-  <a class="btn primary" href="index.html#zayavka">10 дней бесплатно</a>
+  <a class="btn primary" href="index.html#zayavka">Записаться на разбор</a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="nav">Меню</button>
 </div></header>
 <main id="main">
@@ -55,16 +56,17 @@ FOOT = """</main>
   <div><h4>Связаться</h4><ul>
     <li><a href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp +7 702 268 17 77</a></li>
     <li><a href="files/NORDIS-presentation.pdf">Презентация, PDF</a></li>
-    <li><a href="index.html#zayavka">10 дней бесплатно</a></li>
+    <li><a href="index.html#zayavka">Разбор и −50% на первый месяц</a></li>
   </ul></div>
 </div></footer>
-<div class="mcta"><a class="btn ghost" href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp</a><a class="btn primary" href="index.html#zayavka">10 дней бесплатно</a></div>
+<div class="mcta"><a class="btn ghost" href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp</a><a class="btn primary" href="index.html#zayavka">−50% на 1 месяц</a></div>
 <script src="assets/site.js" defer></script>
 </body>
 </html>
 """
 
 FORM = (SRC / "_form.html").read_text()
+CALC = (SRC / "_calc.html").read_text()
 
 def build():
     pages = []
@@ -73,13 +75,13 @@ def build():
             continue
         raw = f.read_text()
         meta = dict(re.findall(r"<!--\s*(\w+):\s*(.*?)\s*-->", raw.split("\n\n", 1)[0]))
-        body = raw.split("\n\n", 1)[1].replace("{{FORM}}", FORM)
+        body = raw.split("\n\n", 1)[1].replace("{{FORM}}", FORM).replace("{{CALC}}", CALC)
         slug = f.stem
         url = DOMAIN + "/" + ("" if slug == "index" else slug)
         if meta.get("bare") == "1":
             html = HEAD.format(title=meta["title"], desc=meta["desc"], url=url) + body + "\n</body>\n</html>\n"
         else:
-            links = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n in NAV)
+            links = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n in FOOTNAV)
             html = (HEAD.format(title=meta["title"], desc=meta["desc"], url=url) + header(slug) + body
                     + FOOT.replace("{links}", links))
         (OUT / f.name).write_text(html)

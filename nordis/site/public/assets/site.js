@@ -36,7 +36,7 @@
   }
 
   function waLink(d) {
-    var text = 'Здравствуйте! Хочу 10 дней NORDIS бесплатно.\n' +
+    var text = 'Здравствуйте! Хочу разбор и подключение NORDIS, первый месяц −50%.\n' +
       'Имя: ' + d.name + '\nКомпания: ' + (d.company || '—') + '\nОборот в месяц: ' + d.turnover +
       (d.comment ? '\nЗадача: ' + d.comment : '');
     return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text);
@@ -77,4 +77,45 @@
       .then(function (r) { if (r.ok) done(); else fallback(); })
       .catch(fallback);
   });
+})();
+
+/* savings calculator */
+(function () {
+  var root = document.getElementById('calc');
+  if (!root) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var num = function (id) { var v = parseFloat(String($(id).value).replace(',', '.')); return isFinite(v) && v > 0 ? v : 0; };
+  var fmt = function (v) {
+    var m = v / 1e6;
+    return (v < 0 ? '−' : '') + Math.abs(m).toLocaleString('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' млн ₸';
+  };
+  function calc() {
+    var rev = num('c-rev') * 1e6, margin = Math.min(num('c-margin'), 95) / 100;
+    var mgr = Math.floor(num('c-mgr')), sal = num('c-sal');
+    var ads = num('c-ads') * 1e6;
+    var pack, price, team;
+    if (rev < 20e6) { pack = 'Лайт'; price = 1.2e6; team = false; }
+    else if (rev < 100e6) { pack = 'Бизнес'; price = 2e6; team = true; }
+    else { pack = 'Премиум'; price = 3.3e6; team = true; }
+    var fot = Math.min(mgr, 2) * sal;
+    if (team && $('c-rop').checked) fot += num('c-ropsal');
+    if (team && $('c-tg').checked) fot += num('c-tgsal');
+    var adSave = ads * 0.14;
+    var grow = rev * 0.10 * margin;
+    var fee = price + rev * 0.4 * 0.01;
+    var total = fot + adSave + grow - fee;
+    $('c-pack').textContent = 'пакет ' + pack;
+    $('r-fot').textContent = '+' + fmt(fot);
+    $('r-ads').textContent = '+' + fmt(adSave);
+    $('r-grow').textContent = '+' + fmt(grow);
+    $('r-fee').textContent = '−' + fmt(fee);
+    $('r-total').textContent = (total >= 0 ? '+' : '') + fmt(total);
+    $('r-roi').textContent = fee > 0
+      ? 'Каждый тенге в NORDIS возвращает ' + ((fot + adSave + grow) / fee).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) +
+        ' ₸. За год: ' + (total >= 0 ? '+' : '') + fmt(total * 12) + '. В первый месяц пакет стоит на ' + fmt(price / 2) + ' меньше.'
+      : '';
+  }
+  root.addEventListener('input', calc);
+  root.addEventListener('change', calc);
+  calc();
 })();
