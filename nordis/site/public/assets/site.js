@@ -89,6 +89,9 @@
     var m = v / 1e6;
     return (v < 0 ? '−' : '') + Math.abs(m).toLocaleString('ru-RU', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' млн ₸';
   };
+  var mln = function (v) { return (v / 1e6).toLocaleString('ru-RU', { maximumFractionDigits: 1 }); };
+  var tg = function (v) { return Math.round(v).toLocaleString('ru-RU') + ' ₸'; };
+  var pct = function (v) { return (v * 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + '%'; };
   function calc() {
     var rev = num('c-rev') * 1e6, margin = Math.min(num('c-margin'), 95) / 100;
     var mgr = Math.floor(num('c-mgr')), sal = num('c-sal');
@@ -97,26 +100,42 @@
     if (rev < 20e6) { pack = 'Лайт'; price = 1.2e6; team = false; }
     else if (rev < 100e6) { pack = 'Бизнес'; price = 2e6; team = true; }
     else { pack = 'Премиум'; price = 3.3e6; team = true; }
-    var fot = Math.min(mgr, 2) * sal;
-    if (team && $('c-rop').checked) fot += num('c-ropsal');
-    if (team && $('c-tg').checked) fot += num('c-tgsal');
-    var g = Math.min(num('c-grow'), 100) / 100;
-    var adSave = ads / 7;                  // −14%: в проекте 14 → 12 млн ₸
-    var grow = rev * g * margin * 0.85;    // минус комиссии банков и налоги с роста
-    var fee = price + rev * 0.47 * 0.01;   // +1% с продаж ИИ-продавца (около половины продаж)
-    var total = fot + adSave + grow - fee;
+    // зарплаты: ИИ-продавец заменяет до двух менеджеров; ИИ-РОП и ИИ-таргетолог — в Бизнес и Премиум
+    var repl = Math.min(mgr, 2), fot = repl * sal, who = [];
+    if (repl) who.push(repl + ' из ' + mgr + ' менеджеров по ' + tg(sal));
+    if (team && $('c-rop').checked) { fot += num('c-ropsal'); who.push('РОП'); }
+    if (team && $('c-tg').checked) { fot += num('c-tgsal'); who.push('таргетолог'); }
+    // реклама: NORDIS показывает объявления без продаж, в проекте расход 14 → 12 млн ₸ (−14%)
+    var adSave = ads / 7;
+    // рост продаж: новая выручка × маржа
+    var g = Math.min(num('c-grow'), 100) / 100, extra = rev * g, grow = extra * margin;
+    var comm = extra * Math.min(num('c-comm'), 10) / 100;
+    var fee = price + rev * 0.47 * 0.01;   // +1% с продаж, которые закрыл ИИ-продавец (около половины продаж)
+    var rate = Math.min(num('c-rate'), 50) / 100, simple = $('c-tax').value === 'simple', tax;
+    if (simple) tax = extra * rate;        // упрощёнка: налог с выручки — экономия налогом не облагается
+    else tax = Math.max(0, (fot + adSave + grow - comm - fee) * rate);   // КПН с прибавки к прибыли
+    var total = fot + adSave + grow - comm - tax - fee;
     $('c-pack').textContent = 'пакет ' + pack;
-    $('r-gp').textContent = '+' + (g * 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + '%';
+    $('l-fot').textContent = who.length ? 'Зарплаты: ИИ-сотрудники заменяют ' + who.join(', ') + '. Остаётся у вас' : 'Зарплаты: менеджеров на замену нет';
+    $('l-ads').textContent = 'Реклама: тратили ' + mln(ads) + ' млн ₸ в месяц → станет ' + mln(ads - adSave) + ' млн ₸ (−14%: NORDIS показывает объявления без продаж). Остаётся у вас';
+    $('l-grow').textContent = 'Рост продаж: выручка ' + mln(rev) + ' → ' + mln(rev + extra) + ' млн ₸ (+' + pct(g) + '), маржа ' + pct(margin) + '. Прибыль с новых продаж';
+    $('l-comm').textContent = 'Комиссия за приём оплат с новой выручки (' + pct(Math.min(num('c-comm'), 10) / 100) + ')';
+    $('l-tax').textContent = simple ? 'Налог: упрощёнка ' + pct(rate) + ' с новой выручки (экономия на зарплатах и рекламе налогом не облагается)'
+      : 'Налог: КПН ' + pct(rate) + ' с прибавки к прибыли';
+    $('l-fee').textContent = 'NORDIS: пакет ' + pack + ' ' + mln(price) + ' млн ₸ + 1% с продаж ИИ-продавца';
     $('r-fot').textContent = '+' + fmt(fot);
     $('r-ads').textContent = '+' + fmt(adSave);
     $('r-grow').textContent = '+' + fmt(grow);
+    $('r-comm').textContent = '−' + fmt(comm);
+    $('r-tax').textContent = '−' + fmt(tax);
     $('r-fee').textContent = '−' + fmt(fee);
     $('r-total').textContent = (total >= 0 ? '+' : '') + fmt(total);
     $('r-roi').textContent = fee > 0
-      ? 'Каждый тенге в NORDIS возвращает ' + ((fot + adSave + grow) / fee).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) +
+      ? 'Каждый тенге в NORDIS возвращает ' + ((total + fee) / fee).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) +
         ' ₸. За год: ' + (total >= 0 ? '+' : '') + fmt(total * 12) + '. В первый месяц пакет стоит на ' + fmt(price / 2) + ' меньше.'
       : '';
   }
+  $('c-tax').addEventListener('change', function () { $('c-rate').value = this.value === 'simple' ? 4 : 20; });
   root.addEventListener('input', calc);
   root.addEventListener('change', calc);
   calc();

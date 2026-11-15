@@ -53,16 +53,26 @@
       <label for="c-ads">Расход на рекламу в месяц, млн ₸<input id="c-ads" type="number" min="0" step="0.5" value="14" inputmode="decimal"></label>
       <label for="c-grow">Рост выручки, %<input id="c-grow" type="number" min="0" max="100" step="0.1" value="18.6" inputmode="decimal"></label>
     </div>
+    <div class="row2">
+      <label for="c-tax">Налоговый режим<select id="c-tax"><option value="simple" selected>Упрощённая декларация (% с выручки)</option><option value="general">Общеустановленный (КПН с прибыли)</option></select></label>
+      <label for="c-rate">Ставка налога, %<input id="c-rate" type="number" min="0" max="50" step="0.5" value="4" inputmode="decimal"></label>
+    </div>
+    <div class="row2">
+      <label for="c-comm">Комиссия за приём оплат, %<input id="c-comm" type="number" min="0" max="10" step="0.1" value="1" inputmode="decimal"></label>
+      <span></span>
+    </div>
   </form>
   <div class="out" aria-live="polite">
     <p class="eyebrow" style="color:var(--lime)">Ваш эффект в месяц · <span id="c-pack">пакет Бизнес</span></p>
-    <div class="row"><span>Экономия на зарплатах</span><b id="r-fot">—</b></div>
-    <div class="row"><span>Экономия на рекламе (−14%)</span><b id="r-ads">—</b></div>
-    <div class="row"><span>Прибыль от роста продаж (<span id="r-gp">+18,6%</span>), за вычетом комиссий и налогов</span><b id="r-grow">—</b></div>
-    <div class="row neg"><span>Стоимость NORDIS + 1% с продаж ИИ</span><b id="r-fee">—</b></div>
-    <div class="total"><span>Прибавка к чистой прибыли в месяц</span><b id="r-total">—</b></div>
+    <div class="row"><span id="l-fot">Зарплаты</span><b id="r-fot">—</b></div>
+    <div class="row"><span id="l-ads">Реклама</span><b id="r-ads">—</b></div>
+    <div class="row"><span id="l-grow">Рост продаж</span><b id="r-grow">—</b></div>
+    <div class="row neg"><span id="l-comm">Комиссия за приём оплат</span><b id="r-comm">—</b></div>
+    <div class="row neg"><span id="l-tax">Налог</span><b id="r-tax">—</b></div>
+    <div class="row neg"><span id="l-fee">NORDIS</span><b id="r-fee">—</b></div>
+    <div class="total"><span>Прибавка к чистой прибыли в месяц — после налогов и оплаты NORDIS</span><b id="r-total">—</b></div>
     <p class="roi" id="r-roi"></p>
-    <p class="note">Оценка по работающему проекту: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Рост 18,6% — как в проекте, пессимистичный сценарий — 10%. Точный расчёт — на разборе.</p>
+    <p class="note">Оценка по работающему проекту: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Рост 18,6% — как в проекте, пессимистичный сценарий — 10%. Ставку налога проверьте у своего бухгалтера. Точный расчёт — на разборе.</p>
   </div>
 </div>
 
@@ -90,10 +100,10 @@
     <div class="col">
       <span class="pill">20 минут разбора · первый месяц −50%</span>
       <h2>Первый месяц — <em>50% стоимости</em></h2>
-      <p class="lead">За 20 минут покажу, где ваш бизнес теряет деньги и какой пакет у вас окупится. Дальше за 10 дней соберём всё в одну платформу и запустим продажи. Первый месяц вы платите половину стоимости пакета.</p>
+      <p class="lead">За 20 минут покажу, где ваш бизнес теряет деньги и какой пакет у вас окупится. Дальше за 10 дней соберём всё на одной платформе и запустим продажи. Первый месяц вы платите половину стоимости пакета.</p>
       <ul class="ticks">
         <li>20 минут: разбор, где бизнес теряет деньги и какой пакет окупится</li>
-        <li>10 дней: данные в одной платформе, ИИ-продавец работает на ваших заявках</li>
+        <li>10 дней: данные на одной платформе, ИИ-продавец работает на ваших заявках</li>
         <li>Первый месяц: 50% стоимости и итог «было → стало» в цифрах</li>
       </ul>
     </div>

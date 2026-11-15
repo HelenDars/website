@@ -258,3 +258,16 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--lime);border-col
 .hero .split{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
 .hero h1{font-size:clamp(34px,4.6vw,60px)}
 @media (max-width:900px){.hero .split{grid-template-columns:1fr}}
+/* главная мысль */
+.goal{font:700 clamp(19px,2vw,24px)/1.35 var(--txt);color:var(--ink);max-width:34ch;margin:0}
+.levers .no,.sum .no{display:inline-grid;place-items:center;min-width:44px;height:36px;padding:0 10px;border-radius:10px;background:var(--lime);font:700 18px var(--dis);align-self:flex-start}
+.sum .no{min-width:48px;height:48px;font-size:26px}
+.card.hl .no{background:var(--ink);color:var(--lime)}
+.calm{margin-top:28px;background:var(--ink);color:#fff;border-radius:24px;padding:clamp(22px,4vw,36px)}
+.calm h3{font-size:clamp(22px,2.6vw,32px);color:#fff}
+.calm h3 em{background:none;color:var(--lime)}
+.calm p{margin-top:12px;color:#D9DEEA;font-size:clamp(16px,1.5vw,19px);max-width:70ch}
+/* длинные слова в карточках не вылезают */
+.card h3{overflow-wrap:anywhere;hyphens:auto}
+.g4 .card h3{font-size:clamp(18px,1.6vw,22px)}
+.phone img{height:auto}
