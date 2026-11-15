@@ -14,7 +14,7 @@
   box.className = 'ec-box'; box.hidden = true; box.setAttribute('aria-label', 'Чат с Еленой');
   box.innerHTML = '<header><img src="assets/team/elena.webp" alt="" width="40" height="40"><div><b>Елена</b><span>ИИ-продавец NORDIS · онлайн 24/7</span></div>' +
     '<button type="button" class="ec-x" aria-label="Закрыть">×</button></header><div class="ec-msgs" aria-live="polite"></div>' +
-    '<form class="ec-form"><textarea rows="1" maxlength="1000" placeholder="Напишите вопрос…" aria-label="Сообщение"></textarea><button class="btn primary" type="submit">→</button></form>';
+    '<p class="ec-ok">Отправляя сообщение, вы соглашаетесь с <a href="politika.html" target="_blank">обработкой персональных данных</a></p><form class="ec-form"><textarea rows="1" maxlength="1000" placeholder="Напишите вопрос…" aria-label="Сообщение"></textarea><button class="btn primary" type="submit">→</button></form>';
   document.body.append(btn, box);
   var msgs = box.querySelector('.ec-msgs'), form = box.querySelector('form'), ta = form.querySelector('textarea');
 

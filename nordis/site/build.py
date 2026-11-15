@@ -7,7 +7,7 @@ DOMAIN = "https://nordis.kz"
 
 NAV = [("ii-sotrudniki", "ИИ-сотрудники"), ("sobstvenniku", "Собственнику"), ("prodazhi", "Продажи и команда"),
        ("reklama", "Реклама"), ("otrasli", "Для кого"), ("vnedrenie", "Внедрение"), ("pakety", "Пакеты")]
-FOOTNAV = NAV + [("bezopasnost", "Безопасность"), ("kalkulyator", "Калькулятор выгоды")]
+FOOTNAV = NAV + [("bezopasnost", "Безопасность"), ("kalkulyator", "Калькулятор выгоды"), ("politika", "Обработка персональных данных")]
 
 HEAD = """<!doctype html>
 <html lang="ru">

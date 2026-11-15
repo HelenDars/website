@@ -292,3 +292,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--lime);border-col
 @media (max-width:760px){.ec-btn{bottom:86px;right:12px}.ec-btn span{display:none}.ec-btn{padding:6px}.ec-box{right:12px;bottom:12px;height:calc(100vh - 24px)}}
 .ec-box[hidden],.ec-btn[hidden]{display:none}
 section.ec-box{padding:0}
+.ec-ok{margin:0;padding:6px 12px 0;font-size:11px;color:var(--muted);background:var(--white);border-top:1px solid var(--line)}
+.ec-ok a{color:var(--muted)}
+.ec-ok+.ec-form{border-top:0}
+.doc h2{font-size:clamp(22px,2.4vw,28px);margin-top:10px}
