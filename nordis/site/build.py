@@ -6,7 +6,7 @@ SRC, OUT = HERE / "src", HERE / "public"
 DOMAIN = "https://nordis.kz"
 
 NAV = [("ii-sotrudniki", "ИИ-сотрудники"), ("sobstvenniku", "Собственнику"), ("prodazhi", "Продажи и команда"),
-       ("otrasli", "Для кого"), ("vnedrenie", "Внедрение"), ("pakety", "Пакеты")]
+       ("reklama", "Реклама"), ("otrasli", "Для кого"), ("vnedrenie", "Внедрение"), ("pakety", "Пакеты")]
 FOOTNAV = NAV + [("bezopasnost", "Безопасность"), ("kalkulyator", "Калькулятор выгоды")]
 
 HEAD = """<!doctype html>
@@ -37,7 +37,7 @@ def header(active):
     cur = ' aria-current="page"'
     links = "".join(f'<a href="{slug}.html"{cur if slug == active else ""}>{name}</a>' for slug, name in NAV)
     return f"""<header class="hdr"><div class="wrap">
-  <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="104" height="24"></a>
+  <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="110" height="24"></a>
   <nav class="nav" id="nav" aria-label="Разделы">{links}</nav>
   <a class="btn primary" href="index.html#zayavka">Записаться на разбор</a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="nav">Меню</button>
@@ -48,7 +48,7 @@ def header(active):
 FOOT = """</main>
 <footer class="ftr"><div class="wrap">
   <div class="col" style="gap:12px">
-    <img src="assets/logo.svg" alt="NORDIS" width="104" height="24">
+    <img src="assets/logo.svg" alt="NORDIS" width="110" height="24">
     <p class="muted">Платформа для управления бизнесом с ИИ-сотрудниками. Данные хранятся в Казахстане.</p>
     <p class="muted">Елена Дарс — основатель и разработчик NORDIS</p>
   </div>

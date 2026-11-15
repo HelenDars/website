@@ -21,8 +21,8 @@
 <body>
 <a class="skip" href="#main">К содержанию</a>
 <header class="hdr"><div class="wrap">
-  <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="104" height="24"></a>
-  <nav class="nav" id="nav" aria-label="Разделы"><a href="ii-sotrudniki.html">ИИ-сотрудники</a><a href="sobstvenniku.html">Собственнику</a><a href="prodazhi.html">Продажи и команда</a><a href="otrasli.html">Для кого</a><a href="vnedrenie.html">Внедрение</a><a href="pakety.html">Пакеты</a></nav>
+  <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="110" height="24"></a>
+  <nav class="nav" id="nav" aria-label="Разделы"><a href="ii-sotrudniki.html">ИИ-сотрудники</a><a href="sobstvenniku.html">Собственнику</a><a href="prodazhi.html">Продажи и команда</a><a href="reklama.html">Реклама</a><a href="otrasli.html">Для кого</a><a href="vnedrenie.html">Внедрение</a><a href="pakety.html">Пакеты</a></nav>
   <a class="btn primary" href="index.html#zayavka">Записаться на разбор</a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="nav">Меню</button>
 </div></header>
@@ -30,12 +30,12 @@
 <section class="hero">
   <div class="wrap">
     <div class="sec-head"><span class="pill">Калькулятор выгоды</span><h1>Сколько NORDIS <em>добавит к прибыли</em></h1>
-      <p class="lead">Введите цифры своего бизнеса. Расчёт идёт по пессимистичному сценарию работающего проекта, где чистая прибыль выросла с 5,2 до 10,3 млн ₸ в месяц.</p></div>
+      <p class="lead">Введите цифры своего бизнеса. По умолчанию — реалистичный сценарий работающего проекта, где чистая прибыль выросла с 5,2 до 9,8 млн ₸ в месяц. Рост выручки можно поменять.</p></div>
     <div class="calc" id="calc">
   <form class="in" aria-label="Данные вашего бизнеса" onsubmit="return false">
     <div class="row2">
       <label for="c-rev">Выручка в месяц, млн ₸<input id="c-rev" type="number" min="1" step="1" value="42" inputmode="decimal"></label>
-      <label for="c-margin">Маржа после себестоимости, %<input id="c-margin" type="number" min="5" max="95" step="1" value="50" inputmode="decimal"></label>
+      <label for="c-margin">Маржа после себестоимости, %<input id="c-margin" type="number" min="5" max="95" step="1" value="40" inputmode="decimal"></label>
     </div>
     <div class="row2">
       <label for="c-mgr">Менеджеров по продажам<input id="c-mgr" type="number" min="0" max="50" step="1" value="2" inputmode="numeric"></label>
@@ -49,17 +49,20 @@
       <label class="chk" for="c-tg"><input id="c-tg" type="checkbox" checked> Есть таргетолог</label>
       <label for="c-tgsal">Оплата таргетолога, ₸<input id="c-tgsal" type="number" min="0" step="10000" value="500000" inputmode="numeric"></label>
     </div>
-    <label for="c-ads">Расход на рекламу в месяц, млн ₸<input id="c-ads" type="number" min="0" step="0.5" value="14" inputmode="decimal"></label>
+    <div class="row2">
+      <label for="c-ads">Расход на рекламу в месяц, млн ₸<input id="c-ads" type="number" min="0" step="0.5" value="14" inputmode="decimal"></label>
+      <label for="c-grow">Рост выручки, %<input id="c-grow" type="number" min="0" max="100" step="0.1" value="18.6" inputmode="decimal"></label>
+    </div>
   </form>
   <div class="out" aria-live="polite">
     <p class="eyebrow" style="color:var(--lime)">Ваш эффект в месяц · <span id="c-pack">пакет Бизнес</span></p>
     <div class="row"><span>Экономия на зарплатах</span><b id="r-fot">—</b></div>
     <div class="row"><span>Экономия на рекламе (−14%)</span><b id="r-ads">—</b></div>
-    <div class="row"><span>Прибыль от роста продаж (+10%)</span><b id="r-grow">—</b></div>
+    <div class="row"><span>Прибыль от роста продаж (<span id="r-gp">+18,6%</span>), за вычетом комиссий и налогов</span><b id="r-grow">—</b></div>
     <div class="row neg"><span>Стоимость NORDIS + 1% с продаж ИИ</span><b id="r-fee">—</b></div>
     <div class="total"><span>Прибавка к чистой прибыли в месяц</span><b id="r-total">—</b></div>
     <p class="roi" id="r-roi"></p>
-    <p class="note">Оценка по пессимистичному сценарию работающего проекта: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Без учёта налогов и банковских комиссий. Точный расчёт — на разборе.</p>
+    <p class="note">Оценка по работающему проекту: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Рост 18,6% — как в проекте, пессимистичный сценарий — 10%. Точный расчёт — на разборе.</p>
   </div>
 </div>
 
@@ -72,7 +75,7 @@
     <div class="grid g4">
       <div class="card"><h3>Зарплаты</h3><p class="t">ИИ-продавец берёт на себя работу до двух менеджеров. В пакетах Бизнес и Премиум — ещё РОП и таргетолог</p></div>
       <div class="card"><h3>Реклама</h3><p class="t">Бюджет уходит только в то, что продаёт. В работающем проекте расход снизился с 14 до 12 млн ₸ при том же числе клиентов</p></div>
-      <div class="card"><h3>Рост продаж</h3><p class="t">Ночные заявки, повторные покупки и дожим. Пессимистичный сценарий: выручка +10%</p></div>
+      <div class="card"><h3>Рост продаж</h3><p class="t">Ночные заявки, повторные покупки и дожим. В работающем проекте выручка выросла на 18,6%. Пессимистичный сценарий — +10%</p></div>
       <div class="card soft"><h3>Стоимость</h3><p class="t">Пакет по обороту + 1% с продаж, которые закрыл ИИ-продавец. Первый месяц — 50%</p></div>
     </div>
   </div>
@@ -121,11 +124,11 @@
 </main>
 <footer class="ftr"><div class="wrap">
   <div class="col" style="gap:12px">
-    <img src="assets/logo.svg" alt="NORDIS" width="104" height="24">
+    <img src="assets/logo.svg" alt="NORDIS" width="110" height="24">
     <p class="muted">Платформа для управления бизнесом с ИИ-сотрудниками. Данные хранятся в Казахстане.</p>
     <p class="muted">Елена Дарс — основатель и разработчик NORDIS</p>
   </div>
-  <div><h4>Платформа</h4><ul><li><a href="ii-sotrudniki.html">ИИ-сотрудники</a></li><li><a href="sobstvenniku.html">Собственнику</a></li><li><a href="prodazhi.html">Продажи и команда</a></li><li><a href="otrasli.html">Для кого</a></li><li><a href="vnedrenie.html">Внедрение</a></li><li><a href="pakety.html">Пакеты</a></li><li><a href="bezopasnost.html">Безопасность</a></li><li><a href="kalkulyator.html">Калькулятор выгоды</a></li></ul></div>
+  <div><h4>Платформа</h4><ul><li><a href="ii-sotrudniki.html">ИИ-сотрудники</a></li><li><a href="sobstvenniku.html">Собственнику</a></li><li><a href="prodazhi.html">Продажи и команда</a></li><li><a href="reklama.html">Реклама</a></li><li><a href="otrasli.html">Для кого</a></li><li><a href="vnedrenie.html">Внедрение</a></li><li><a href="pakety.html">Пакеты</a></li><li><a href="bezopasnost.html">Безопасность</a></li><li><a href="kalkulyator.html">Калькулятор выгоды</a></li></ul></div>
   <div><h4>Связаться</h4><ul>
     <li><a href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp +7 702 268 17 77</a></li>
     <li><a href="files/NORDIS-presentation.pdf">Презентация, PDF</a></li>

@@ -100,11 +100,13 @@
     var fot = Math.min(mgr, 2) * sal;
     if (team && $('c-rop').checked) fot += num('c-ropsal');
     if (team && $('c-tg').checked) fot += num('c-tgsal');
-    var adSave = ads * 0.14;
-    var grow = rev * 0.10 * margin;
-    var fee = price + rev * 0.4 * 0.01;
+    var g = Math.min(num('c-grow'), 100) / 100;
+    var adSave = ads / 7;                  // −14%: в проекте 14 → 12 млн ₸
+    var grow = rev * g * margin * 0.85;    // минус комиссии банков и налоги с роста
+    var fee = price + rev * 0.47 * 0.01;   // +1% с продаж ИИ-продавца (около половины продаж)
     var total = fot + adSave + grow - fee;
     $('c-pack').textContent = 'пакет ' + pack;
+    $('r-gp').textContent = '+' + (g * 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + '%';
     $('r-fot').textContent = '+' + fmt(fot);
     $('r-ads').textContent = '+' + fmt(adSave);
     $('r-grow').textContent = '+' + fmt(grow);
