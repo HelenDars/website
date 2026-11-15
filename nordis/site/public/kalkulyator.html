@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Калькулятор выгоды NORDIS — сколько прибыли добавит платформа</title>
+<meta name="description" content="Посчитайте, сколько NORDIS добавит к чистой прибыли: экономия на зарплатах и рекламе, рост продаж, стоимость пакета. Расчёт по сценарию работающего проекта.">
+<link rel="canonical" href="https://nordis.kz/kalkulyator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Калькулятор выгоды NORDIS — сколько прибыли добавит платформа">
+<meta property="og:description" content="Посчитайте, сколько NORDIS добавит к чистой прибыли: экономия на зарплатах и рекламе, рост продаж, стоимость пакета. Расчёт по сценарию работающего проекта.">
+<meta property="og:url" content="https://nordis.kz/kalkulyator">
+<meta property="og:locale" content="ru_KZ">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+<header class="hdr"><div class="wrap">
+  <a class="logo" href="index.html" aria-label="NORDIS — на главную"><img src="assets/logo.svg" alt="NORDIS" width="104" height="24"></a>
+  <nav class="nav" id="nav" aria-label="Разделы"><a href="ii-sotrudniki.html">ИИ-сотрудники</a><a href="sobstvenniku.html">Собственнику</a><a href="prodazhi.html">Продажи и команда</a><a href="otrasli.html">Для кого</a><a href="vnedrenie.html">Внедрение</a><a href="pakety.html">Пакеты</a></nav>
+  <a class="btn primary" href="index.html#zayavka">Записаться на разбор</a>
+  <button class="burger" type="button" aria-expanded="false" aria-controls="nav">Меню</button>
+</div></header>
+<main id="main">
+<section class="hero">
+  <div class="wrap">
+    <div class="sec-head"><span class="pill">Калькулятор выгоды</span><h1>Сколько NORDIS <em>добавит к прибыли</em></h1>
+      <p class="lead">Введите цифры своего бизнеса. Расчёт идёт по пессимистичному сценарию работающего проекта, где чистая прибыль выросла с 5,2 до 10,3 млн ₸ в месяц.</p></div>
+    <div class="calc" id="calc">
+  <form class="in" aria-label="Данные вашего бизнеса" onsubmit="return false">
+    <div class="row2">
+      <label for="c-rev">Выручка в месяц, млн ₸<input id="c-rev" type="number" min="1" step="1" value="42" inputmode="decimal"></label>
+      <label for="c-margin">Маржа после себестоимости, %<input id="c-margin" type="number" min="5" max="95" step="1" value="50" inputmode="decimal"></label>
+    </div>
+    <div class="row2">
+      <label for="c-mgr">Менеджеров по продажам<input id="c-mgr" type="number" min="0" max="50" step="1" value="2" inputmode="numeric"></label>
+      <label for="c-sal">Зарплата менеджера с налогами, ₸<input id="c-sal" type="number" min="0" step="10000" value="450000" inputmode="numeric"></label>
+    </div>
+    <div class="row2">
+      <label class="chk" for="c-rop"><input id="c-rop" type="checkbox" checked> Есть РОП</label>
+      <label for="c-ropsal">Зарплата РОПа, ₸<input id="c-ropsal" type="number" min="0" step="10000" value="700000" inputmode="numeric"></label>
+    </div>
+    <div class="row2">
+      <label class="chk" for="c-tg"><input id="c-tg" type="checkbox" checked> Есть таргетолог</label>
+      <label for="c-tgsal">Оплата таргетолога, ₸<input id="c-tgsal" type="number" min="0" step="10000" value="500000" inputmode="numeric"></label>
+    </div>
+    <label for="c-ads">Расход на рекламу в месяц, млн ₸<input id="c-ads" type="number" min="0" step="0.5" value="14" inputmode="decimal"></label>
+  </form>
+  <div class="out" aria-live="polite">
+    <p class="eyebrow" style="color:var(--lime)">Ваш эффект в месяц · <span id="c-pack">пакет Бизнес</span></p>
+    <div class="row"><span>Экономия на зарплатах</span><b id="r-fot">—</b></div>
+    <div class="row"><span>Экономия на рекламе (−14%)</span><b id="r-ads">—</b></div>
+    <div class="row"><span>Прибыль от роста продаж (+10%)</span><b id="r-grow">—</b></div>
+    <div class="row neg"><span>Стоимость NORDIS + 1% с продаж ИИ</span><b id="r-fee">—</b></div>
+    <div class="total"><span>Прибавка к чистой прибыли в месяц</span><b id="r-total">—</b></div>
+    <p class="roi" id="r-roi"></p>
+    <p class="note">Оценка по пессимистичному сценарию работающего проекта: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Без учёта налогов и банковских комиссий. Точный расчёт — на разборе.</p>
+  </div>
+</div>
+
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Как считается</p><h2>Из чего <em>складывается эффект</em></h2></div>
+    <div class="grid g4">
+      <div class="card"><h3>Зарплаты</h3><p class="t">ИИ-продавец берёт на себя работу до двух менеджеров. В пакетах Бизнес и Премиум — ещё РОП и таргетолог</p></div>
+      <div class="card"><h3>Реклама</h3><p class="t">Бюджет уходит только в то, что продаёт. В работающем проекте расход снизился с 14 до 12 млн ₸ при том же числе клиентов</p></div>
+      <div class="card"><h3>Рост продаж</h3><p class="t">Ночные заявки, повторные покупки и дожим. Пессимистичный сценарий: выручка +10%</p></div>
+      <div class="card soft"><h3>Стоимость</h3><p class="t">Пакет по обороту + 1% с продаж, которые закрыл ИИ-продавец. Первый месяц — 50%</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap"><div class="offer"><b>Точный расчёт по вашим цифрам — <em>на разборе за 20 минут</em></b><a class="btn primary" href="index.html#zayavka">Записаться на разбор</a></div></div>
+</section>
+
+<section id="zayavka" class="white">
+  <div class="wrap split">
+    <div class="col">
+      <span class="pill">20 минут разбора · первый месяц −50%</span>
+      <h2>Первый месяц — <em>50% стоимости</em></h2>
+      <p class="lead">За 20 минут покажу, где ваш бизнес теряет деньги и какой пакет у вас окупится. Дальше за 10 дней соберём всё в одну платформу и запустим продажи. Первый месяц вы платите половину стоимости пакета.</p>
+      <ul class="ticks">
+        <li>20 минут: разбор, где бизнес теряет деньги и какой пакет окупится</li>
+        <li>10 дней: данные в одной платформе, ИИ-продавец работает на ваших заявках</li>
+        <li>Первый месяц: 50% стоимости и итог «было → стало» в цифрах</li>
+      </ul>
+    </div>
+    <div class="form-card">
+      <form id="lead-form" novalidate>
+        <div class="row2">
+          <label for="f-name">Имя<input id="f-name" name="name" autocomplete="name" required></label>
+          <label for="f-phone">Телефон / WhatsApp<input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 700 000 00 00" required></label>
+        </div>
+        <div class="row2">
+          <label for="f-company">Компания<input id="f-company" name="company" autocomplete="organization"></label>
+          <label for="f-turnover">Оборот в месяц
+            <select id="f-turnover" name="turnover">
+              <option>до 5 млн ₸</option><option>5–20 млн ₸</option><option selected>20–100 млн ₸</option><option>больше 100 млн ₸</option><option>стартап, продаж пока нет</option>
+            </select>
+          </label>
+        </div>
+        <label for="f-comment">Что хотите решить в первую очередь<textarea id="f-comment" name="comment" placeholder="Например: заявки ночью теряются, не вижу чистую прибыль"></textarea></label>
+        <label class="consent" for="f-ok"><input id="f-ok" type="checkbox" name="ok" required checked> Согласен на обработку данных для связи со мной</label>
+        <button class="btn primary" type="submit">Записаться на разбор</button>
+        <div id="form-msg" class="form-msg" role="status" hidden></div>
+        <p class="note">Или напишите в WhatsApp: <a href="https://wa.me/77022681777" target="_blank" rel="noopener">+7 702 268 17 77</a></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="ftr"><div class="wrap">
+  <div class="col" style="gap:12px">
+    <img src="assets/logo.svg" alt="NORDIS" width="104" height="24">
+    <p class="muted">Платформа для управления бизнесом с ИИ-сотрудниками. Данные хранятся в Казахстане.</p>
+    <p class="muted">Елена Дарс — основатель и разработчик NORDIS</p>
+  </div>
+  <div><h4>Платформа</h4><ul><li><a href="ii-sotrudniki.html">ИИ-сотрудники</a></li><li><a href="sobstvenniku.html">Собственнику</a></li><li><a href="prodazhi.html">Продажи и команда</a></li><li><a href="otrasli.html">Для кого</a></li><li><a href="vnedrenie.html">Внедрение</a></li><li><a href="pakety.html">Пакеты</a></li><li><a href="bezopasnost.html">Безопасность</a></li><li><a href="kalkulyator.html">Калькулятор выгоды</a></li></ul></div>
+  <div><h4>Связаться</h4><ul>
+    <li><a href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp +7 702 268 17 77</a></li>
+    <li><a href="files/NORDIS-presentation.pdf">Презентация, PDF</a></li>
+    <li><a href="index.html#zayavka">Разбор и −50% на первый месяц</a></li>
+  </ul></div>
+</div></footer>
+<div class="mcta"><a class="btn ghost" href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp</a><a class="btn primary" href="index.html#zayavka">−50% на 1 месяц</a></div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

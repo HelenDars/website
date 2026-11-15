@@ -1,0 +1,31 @@
+<div class="calc" id="calc">
+  <form class="in" aria-label="Данные вашего бизнеса" onsubmit="return false">
+    <div class="row2">
+      <label for="c-rev">Выручка в месяц, млн ₸<input id="c-rev" type="number" min="1" step="1" value="42" inputmode="decimal"></label>
+      <label for="c-margin">Маржа после себестоимости, %<input id="c-margin" type="number" min="5" max="95" step="1" value="50" inputmode="decimal"></label>
+    </div>
+    <div class="row2">
+      <label for="c-mgr">Менеджеров по продажам<input id="c-mgr" type="number" min="0" max="50" step="1" value="2" inputmode="numeric"></label>
+      <label for="c-sal">Зарплата менеджера с налогами, ₸<input id="c-sal" type="number" min="0" step="10000" value="450000" inputmode="numeric"></label>
+    </div>
+    <div class="row2">
+      <label class="chk" for="c-rop"><input id="c-rop" type="checkbox" checked> Есть РОП</label>
+      <label for="c-ropsal">Зарплата РОПа, ₸<input id="c-ropsal" type="number" min="0" step="10000" value="700000" inputmode="numeric"></label>
+    </div>
+    <div class="row2">
+      <label class="chk" for="c-tg"><input id="c-tg" type="checkbox" checked> Есть таргетолог</label>
+      <label for="c-tgsal">Оплата таргетолога, ₸<input id="c-tgsal" type="number" min="0" step="10000" value="500000" inputmode="numeric"></label>
+    </div>
+    <label for="c-ads">Расход на рекламу в месяц, млн ₸<input id="c-ads" type="number" min="0" step="0.5" value="14" inputmode="decimal"></label>
+  </form>
+  <div class="out" aria-live="polite">
+    <p class="eyebrow" style="color:var(--lime)">Ваш эффект в месяц · <span id="c-pack">пакет Бизнес</span></p>
+    <div class="row"><span>Экономия на зарплатах</span><b id="r-fot">—</b></div>
+    <div class="row"><span>Экономия на рекламе (−14%)</span><b id="r-ads">—</b></div>
+    <div class="row"><span>Прибыль от роста продаж (+10%)</span><b id="r-grow">—</b></div>
+    <div class="row neg"><span>Стоимость NORDIS + 1% с продаж ИИ</span><b id="r-fee">—</b></div>
+    <div class="total"><span>Прибавка к чистой прибыли в месяц</span><b id="r-total">—</b></div>
+    <p class="roi" id="r-roi"></p>
+    <p class="note">Оценка по пессимистичному сценарию работающего проекта: ИИ-продавец заменяет до двух менеджеров, ИИ-РОП и ИИ-таргетолог — в пакетах Бизнес и Премиум. Без учёта налогов и банковских комиссий. Точный расчёт — на разборе.</p>
+  </div>
+</div>
