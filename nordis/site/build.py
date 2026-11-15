@@ -60,6 +60,7 @@ FOOT = """</main>
 </div></footer>
 <div class="mcta"><a class="btn ghost" href="https://wa.me/77022681777" target="_blank" rel="noopener">WhatsApp</a><a class="btn primary" href="index.html#zayavka">−50% на 1 месяц</a></div>
 <script src="assets/site.js" defer></script>
+<script src="assets/chat.js" defer></script>
 </body>
 </html>
 """
