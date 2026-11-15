@@ -50,7 +50,6 @@ FOOT = """</main>
   <div class="col" style="gap:12px">
     <img src="assets/logo.svg" alt="NORDIS" width="110" height="24">
     <p class="muted">Платформа для управления бизнесом с ИИ-сотрудниками. Данные хранятся в Казахстане.</p>
-    <p class="muted">Елена Дарс — основатель и разработчик NORDIS</p>
   </div>
   <div><h4>Платформа</h4><ul>{links}</ul></div>
   <div><h4>Связаться</h4><ul>
