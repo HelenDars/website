@@ -2,7 +2,7 @@
 (function () {
   // Address of the NORDIS CRM endpoint that accepts leads (POST, JSON).
   // While it is empty, the form opens WhatsApp with the filled-in request.
-  var LEAD_ENDPOINT = '';
+  var LEAD_ENDPOINT = '/api/public/site-lead';
   var WHATSAPP = '77022681777';
 
   var burger = document.querySelector('.burger');
