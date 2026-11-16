@@ -1,4 +1,20 @@
 /* NORDIS site: menu, lead form, UTM capture */
+/* Цели для Яндекс Метрики и пикселя Meta (если счётчики стоят): lead — заявка из формы, chat_lead — заявка из чата
+   Елены, whatsapp — нажали WhatsApp, chat_open — открыли чат. В Метрике цели создаются как «JavaScript-событие». */
+window.nordisGoal = function (name) {
+  try { if (window.ym && window.NORDIS_YM) window.ym(window.NORDIS_YM, 'reachGoal', name); } catch (e) {}
+  try {
+    if (window.fbq) {
+      if (name === 'lead' || name === 'chat_lead') window.fbq('track', 'Lead', { content_name: name });
+      else if (name === 'whatsapp') window.fbq('track', 'Contact');
+      else window.fbq('trackCustom', name);
+    }
+  } catch (e) {}
+};
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+  if (a) window.nordisGoal('whatsapp');
+});
 (function () {
   // Address of the NORDIS CRM endpoint that accepts leads (POST, JSON).
   // While it is empty, the form opens WhatsApp with the filled-in request.
@@ -64,6 +80,7 @@
 
     var done = function () {
       form.reset();
+      window.nordisGoal('lead');
       show('Спасибо! Заявка принята. Я свяжусь с вами в WhatsApp в течение рабочего дня.', true);
       btn.disabled = false;
     };

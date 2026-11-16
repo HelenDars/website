@@ -5,6 +5,28 @@ HERE = pathlib.Path(__file__).parent
 SRC, OUT = HERE / "src", HERE / "public"
 DOMAIN = "https://nordis.kz"
 
+# Счётчики: вписать номера — и пересобрать. Пусто — на сайт ничего не ставится.
+METRIKA_ID = ""      # Яндекс Метрика: номер счётчика (цифры), metrika.yandex.ru
+META_PIXEL_ID = ""   # пиксель Meta: ID набора данных (цифры), Meta Events Manager
+
+def counters():
+    out = ""
+    if METRIKA_ID:
+        out += f"""<script>(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};m[i].l=1*new Date();
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym({METRIKA_ID},"init",{{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true}});window.NORDIS_YM={METRIKA_ID};</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{METRIKA_ID}" style="position:absolute;left:-9999px" alt=""></div></noscript>
+"""
+    if META_PIXEL_ID:
+        out += f"""<script>!function(f,b,e,v,n,t,s){{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','{META_PIXEL_ID}');fbq('track','PageView');</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id={META_PIXEL_ID}&ev=PageView&noscript=1"></noscript>
+"""
+    return out
+
 NAV = [("ii-sotrudniki", "ИИ-сотрудники"), ("sobstvenniku", "Собственнику"), ("prodazhi", "Продажи и команда"),
        ("reklama", "Реклама"), ("otrasli", "Для кого"), ("vnedrenie", "Внедрение"), ("pakety", "Пакеты")]
 FOOTNAV = NAV + [("bezopasnost", "Безопасность"), ("kalkulyator", "Калькулятор выгоды"), ("politika", "Обработка персональных данных")]
@@ -28,7 +50,7 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-</head>
+{counters}</head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
 """
@@ -80,10 +102,10 @@ def build():
         slug = f.stem
         url = DOMAIN + "/" + ("" if slug == "index" else slug)
         if meta.get("bare") == "1":
-            html = HEAD.format(title=meta["title"], desc=meta["desc"], url=url) + body + "\n</body>\n</html>\n"
+            html = HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters()) + body + "\n</body>\n</html>\n"
         else:
             links = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n in FOOTNAV)
-            html = (HEAD.format(title=meta["title"], desc=meta["desc"], url=url) + header(slug) + body
+            html = (HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters()) + header(slug) + body
                     + FOOT.replace("{links}", links))
         (OUT / f.name).write_text(html)
         if slug != "404":

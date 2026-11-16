@@ -27,7 +27,7 @@
   }
   function draw() { msgs.innerHTML = ''; bubble('assistant', HELLO); hist.forEach(function (m) { bubble(m.role, m.text, m.wa); }); }
   var phone = function () { return window.matchMedia('(max-width: 760px)').matches; };
-  function open() { box.hidden = false; btn.hidden = true; back.hidden = !phone(); document.body.classList.toggle('ec-lock', phone()); draw();
+  function open() { if (box.hidden && window.nordisGoal) window.nordisGoal('chat_open'); box.hidden = false; btn.hidden = true; back.hidden = !phone(); document.body.classList.toggle('ec-lock', phone()); draw();
     if (!phone()) setTimeout(function () { ta.focus(); }, 50); }   // на телефоне клавиатура — только по нажатию в поле
   function close() { box.hidden = true; btn.hidden = false; back.hidden = true; document.body.classList.remove('ec-lock'); }
   back.onclick = close;
@@ -45,6 +45,7 @@
       .then(function (x) {
         wait.remove();
         var text = x.ok ? x.d.reply : (x.d.detail || 'Не получилось ответить. Напишите нам в WhatsApp: +7 702 268 17 77');
+        if (x.ok && x.d.whatsapp && !hist.some(function (h) { return h.wa; })) window.nordisGoal && window.nordisGoal('chat_lead');
         var m = { role: 'assistant', text: text, wa: x.ok ? x.d.whatsapp : null }; hist.push(m); save(); bubble('assistant', m.text, m.wa);
       })
       .catch(function () { wait.textContent = 'Нет связи. Напишите нам в WhatsApp: +7 702 268 17 77'; });
