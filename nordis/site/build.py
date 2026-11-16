@@ -50,6 +50,7 @@ FOOT = """</main>
   <div class="col" style="gap:12px">
     <img src="assets/logo.svg" alt="NORDIS" width="110" height="24">
     <p class="muted">Платформа для управления бизнесом с ИИ-сотрудниками. Данные хранятся в Казахстане.</p>
+    <p class="muted" style="font-size:13px">ТОО «Helen Dars» · БИН 180740027180<br>г. Астана, ул. Алматы, д. 1</p>
   </div>
   <div><h4>Платформа</h4><ul>{links}</ul></div>
   <div><h4>Связаться</h4><ul>
