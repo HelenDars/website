@@ -7,7 +7,7 @@ DOMAIN = "https://nordis.kz"
 
 # Счётчики: вписать номера — и пересобрать. Пусто — на сайт ничего не ставится.
 METRIKA_ID = "114273471"      # Яндекс Метрика: номер счётчика (цифры), metrika.yandex.ru
-META_PIXEL_ID = ""   # пиксель Meta: ID набора данных (цифры), Meta Events Manager
+META_PIXEL_ID = "1834449011219732"   # пиксель Meta: ID набора данных (цифры), Meta Events Manager
 
 def counters():
     out = ""
