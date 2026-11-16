@@ -6,17 +6,21 @@ SRC, OUT = HERE / "src", HERE / "public"
 DOMAIN = "https://nordis.kz"
 
 # Счётчики: вписать номера — и пересобрать. Пусто — на сайт ничего не ставится.
-METRIKA_ID = ""      # Яндекс Метрика: номер счётчика (цифры), metrika.yandex.ru
+METRIKA_ID = "114273471"      # Яндекс Метрика: номер счётчика (цифры), metrika.yandex.ru
 META_PIXEL_ID = ""   # пиксель Meta: ID набора данных (цифры), Meta Events Manager
 
 def counters():
     out = ""
     if METRIKA_ID:
-        out += f"""<script>(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};m[i].l=1*new Date();
+        out += f"""<!-- Yandex.Metrika counter -->
+<script type="text/javascript">(function(m,e,t,r,i,k,a){{m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};
+m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){{if(document.scripts[j].src===r){{return;}}}}
 k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-ym({METRIKA_ID},"init",{{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true}});window.NORDIS_YM={METRIKA_ID};</script>
+(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id={METRIKA_ID}','ym');
+ym({METRIKA_ID},'init',{{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",accurateTrackBounce:true,trackLinks:true}});
+window.NORDIS_YM={METRIKA_ID};</script>
 <noscript><div><img src="https://mc.yandex.ru/watch/{METRIKA_ID}" style="position:absolute;left:-9999px" alt=""></div></noscript>
+<!-- /Yandex.Metrika counter -->
 """
     if META_PIXEL_ID:
         out += f"""<script>!function(f,b,e,v,n,t,s){{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}};
