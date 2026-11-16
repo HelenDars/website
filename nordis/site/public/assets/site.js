@@ -72,7 +72,11 @@ document.addEventListener('click', function (e) {
       source: 'nordis.kz'
     };
     if (!d.name || d.phone.replace(/\D/g, '').length < 10) {
-      show('Укажите имя и номер телефона — 10 или 11 цифр.', false);
+      // называем именно пустое поле и ставим в него курсор (16.11: номер был верный, а ошибка звучала про оба поля)
+      var miss = !d.name ? 'name' : 'phone';
+      show(!d.name ? 'Укажите имя — поле «Имя» вверху формы.' : 'Укажите номер телефона — 10 или 11 цифр.', false);
+      var el = form.querySelector('[name="' + miss + '"]');
+      if (el) { el.focus(); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
       return;
     }
     var btn = form.querySelector('button[type="submit"]');
