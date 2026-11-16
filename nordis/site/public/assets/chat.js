@@ -15,7 +15,8 @@
   box.innerHTML = '<header><img src="assets/team/elena.webp" alt="" width="40" height="40"><div><b>Елена</b><span>ИИ-продавец NORDIS · онлайн 24/7</span></div>' +
     '<button type="button" class="ec-x" aria-label="Закрыть">×</button></header><div class="ec-msgs" aria-live="polite"></div>' +
     '<p class="ec-ok">Отправляя сообщение, вы соглашаетесь с <a href="politika.html" target="_blank">обработкой персональных данных</a></p><form class="ec-form"><textarea rows="1" maxlength="1000" placeholder="Напишите вопрос…" aria-label="Сообщение"></textarea><button class="btn primary" type="submit">→</button></form>';
-  document.body.append(btn, box);
+  var back = document.createElement('div'); back.className = 'ec-back'; back.hidden = true;
+  document.body.append(back, btn, box);
   var msgs = box.querySelector('.ec-msgs'), form = box.querySelector('form'), ta = form.querySelector('textarea');
 
   function bubble(role, text, wa) {
@@ -25,9 +26,13 @@
     msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d;
   }
   function draw() { msgs.innerHTML = ''; bubble('assistant', HELLO); hist.forEach(function (m) { bubble(m.role, m.text, m.wa); }); }
-  function open() { box.hidden = false; btn.hidden = true; draw(); setTimeout(function () { ta.focus(); }, 50); }
+  var phone = function () { return window.matchMedia('(max-width: 760px)').matches; };
+  function open() { box.hidden = false; btn.hidden = true; back.hidden = !phone(); document.body.classList.toggle('ec-lock', phone()); draw();
+    if (!phone()) setTimeout(function () { ta.focus(); }, 50); }   // на телефоне клавиатура — только по нажатию в поле
+  function close() { box.hidden = true; btn.hidden = false; back.hidden = true; document.body.classList.remove('ec-lock'); }
+  back.onclick = close;
   btn.onclick = open;
-  box.querySelector('.ec-x').onclick = function () { box.hidden = true; btn.hidden = false; };
+  box.querySelector('.ec-x').onclick = close;
   ta.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
   form.onsubmit = function (e) {
     e.preventDefault();

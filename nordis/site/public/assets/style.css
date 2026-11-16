@@ -289,7 +289,15 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--lime);border-col
 .ec-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:var(--white)}
 .ec-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;padding:10px 12px}
 .ec-form .btn{padding:0 16px}
-@media (max-width:760px){.ec-btn{bottom:86px;right:12px}.ec-btn span{display:none}.ec-btn{padding:6px}.ec-box{right:12px;bottom:12px;height:calc(100vh - 24px)}}
+@media (max-width:760px){
+  .ec-btn{bottom:86px;right:12px;padding:6px}.ec-btn span{display:none}
+  .ec-box{left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));width:auto;height:min(72vh,560px);height:min(72dvh,560px);border-radius:22px;z-index:61}
+  .ec-box header{padding:10px 12px}
+  .ec-back{position:fixed;inset:0;z-index:60;background:#0D122966;backdrop-filter:blur(2px)}
+  body.ec-lock{overflow:hidden}
+  body.ec-lock .mcta{display:none}
+}
+.ec-back[hidden]{display:none}
 .ec-box[hidden],.ec-btn[hidden]{display:none}
 section.ec-box{padding:0}
 .ec-ok{margin:0;padding:6px 12px 0;font-size:11px;color:var(--muted);background:var(--white);border-top:1px solid var(--line)}
