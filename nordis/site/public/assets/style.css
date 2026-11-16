@@ -296,3 +296,13 @@ section.ec-box{padding:0}
 .ec-ok a{color:var(--muted)}
 .ec-ok+.ec-form{border-top:0}
 .doc h2{font-size:clamp(22px,2.4vw,28px);margin-top:10px}
+/* пакеты: раскрытие состава */
+.pack{cursor:pointer}
+.pack .badge{cursor:pointer}
+.more{margin-top:6px;border-top:1px solid var(--line);padding-top:10px}
+.more summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.more summary::after{content:"＋";font-weight:800}
+.more[open] summary::after{content:"−"}
+.more h4{margin:14px 0 6px;font:700 14px var(--txt);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.more ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--ink2);font-size:15px}
+.pack .btn{white-space:normal;text-align:center;margin-top:14px}

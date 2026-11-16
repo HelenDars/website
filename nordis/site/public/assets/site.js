@@ -140,3 +140,30 @@
   root.addEventListener('change', calc);
   calc();
 })();
+
+/* пакеты: клик по карточке или плашке — раскрыть состав; «Записаться — пакет …» — к форме с выбранным пакетом */
+(function () {
+  var TURN = { 'Лайт': '5–20 млн ₸', 'Бизнес': '20–100 млн ₸', 'Премиум': 'больше 100 млн ₸' };
+  document.querySelectorAll('.pack').forEach(function (card) {
+    var more = card.querySelector('details.more');
+    if (!more) return;
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('a, summary, button, input, select, textarea')) return;
+      more.open = !more.open;
+    });
+  });
+  document.querySelectorAll('[data-pick]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var form = document.getElementById('zayavka');
+      var pack = a.getAttribute('data-pick');
+      if (!form) return;              // формы на странице нет — обычный переход
+      e.preventDefault();
+      var sel = document.getElementById('f-turnover'), com = document.getElementById('f-comment');
+      if (sel) Array.prototype.forEach.call(sel.options, function (o) { if (o.text === TURN[pack]) sel.value = o.value || o.text; });
+      if (com && com.value.indexOf('Пакет') !== 0) com.value = 'Пакет ' + pack + (com.value ? '. ' + com.value : '');
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var name = document.getElementById('f-name');
+      if (name) setTimeout(function () { name.focus({ preventScroll: true }); }, 600);
+    });
+  });
+})();
