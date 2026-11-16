@@ -48,13 +48,18 @@ HEAD = """<!doctype html>
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
 <meta property="og:locale" content="ru_KZ">
+<meta property="og:site_name" content="NORDIS">
+<meta property="og:image" content="https://nordis.kz/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-{counters}</head>
+{schema}{counters}</head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
 """
@@ -95,6 +100,34 @@ FOOT = """</main>
 FORM = (SRC / "_form.html").read_text()
 CALC = (SRC / "_calc.html").read_text()
 
+def schema(slug: str, body: str, url: str, title: str, desc: str) -> str:
+    """Разметка для Google и Яндекса: компания, пакеты с ценами, частые вопросы (16.11)."""
+    import html as _h
+    import json
+    strip = lambda t: _h.unescape(re.sub(r"<[^>]+>", "", t)).strip()  # noqa: E731
+    items = [{"@type": "Organization", "@id": DOMAIN + "/#org", "name": "NORDIS", "url": DOMAIN + "/",
+              "logo": DOMAIN + "/assets/logo.svg", "legalName": "ТОО «Helen Dars»",
+              "address": {"@type": "PostalAddress", "addressLocality": "Астана", "streetAddress": "ул. Алматы, д. 1",
+                          "addressCountry": "KZ"},
+              "contactPoint": {"@type": "ContactPoint", "telephone": "+7-702-268-17-77", "contactType": "sales",
+                               "availableLanguage": ["ru", "kk"]}},
+             {"@type": "WebPage", "url": url, "name": title, "description": desc, "publisher": {"@id": DOMAIN + "/#org"}}]
+    if slug in ("index", "pakety"):
+        offers = [{"@type": "Offer", "name": n, "price": p, "priceCurrency": "KZT",
+                   "priceSpecification": {"@type": "UnitPriceSpecification", "price": p, "priceCurrency": "KZT",
+                                          "unitText": "месяц"}} for n, p in
+                  (("Лайт", 1200000), ("Бизнес", 2000000), ("Премиум", 3300000))]
+        items.append({"@type": "SoftwareApplication", "name": "NORDIS", "applicationCategory": "BusinessApplication",
+                      "operatingSystem": "Web, iOS, Android", "description": desc, "offers": offers,
+                      "provider": {"@id": DOMAIN + "/#org"}})
+    qa = re.findall(r"<details>\s*<summary>(.*?)</summary>\s*<p>(.*?)</p>\s*</details>", body, re.S)
+    if qa:
+        items.append({"@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": strip(q), "acceptedAnswer": {"@type": "Answer", "text": strip(a)}} for q, a in qa]})
+    data = json.dumps({"@context": "https://schema.org", "@graph": items}, ensure_ascii=False)
+    return f'<script type="application/ld+json">{data}</script>\n'
+
+
 def build():
     pages = []
     for f in sorted(SRC.glob("*.html")):
@@ -106,10 +139,12 @@ def build():
         slug = f.stem
         url = DOMAIN + "/" + ("" if slug == "index" else slug)
         if meta.get("bare") == "1":
-            html = HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters()) + body + "\n</body>\n</html>\n"
+            html = HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters(),
+                        schema=schema(slug, body, url, meta["title"], meta["desc"])) + body + "\n</body>\n</html>\n"
         else:
             links = "".join(f'<li><a href="{s}.html">{n}</a></li>' for s, n in FOOTNAV)
-            html = (HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters()) + header(slug) + body
+            html = (HEAD.format(title=meta["title"], desc=meta["desc"], url=url, counters=counters(),
+                        schema=schema(slug, body, url, meta["title"], meta["desc"])) + header(slug) + body
                     + FOOT.replace("{links}", links))
         (OUT / f.name).write_text(html)
         if slug != "404":
