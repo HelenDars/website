@@ -39,7 +39,7 @@
     var t = ta.value.trim(); if (!t) return;
     ta.value = ''; hist.push({ role: 'user', text: t }); save(); bubble('user', t);
     var wait = bubble('assistant', 'Елена печатает…'); wait.classList.add('ec-wait');
-    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname };
+    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, utm: (function () { try { return JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); } catch (e) { return {}; } })() };
     fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
