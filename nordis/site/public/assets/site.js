@@ -215,3 +215,46 @@ document.addEventListener('click', function (e) {
     });
   });
 })();
+
+/* Видео Елены (В1–В5): файл assets/video/vN.mp4 (+ обложка vN.webp). Пока файла нет — блок скрыт, сайт как раньше.
+   Без звука, по кругу, играет только на экране; «уменьшить движение» в системе — без автозапуска (по нажатию).
+   «🔊 Со звуком» — цель Метрики video_sound. */
+(function () {
+  var figs = document.querySelectorAll('figure.vid[data-video]');
+  if (!figs.length || !window.fetch) return;
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io = 'IntersectionObserver' in window;
+  function arm(fig) {
+    var v = fig.querySelector('video'), snd = fig.querySelector('.vid-snd');
+    var src = 'assets/video/' + fig.getAttribute('data-video') + '.mp4';
+    fetch(src, { method: 'HEAD' }).then(function (r) {
+      var t = r.headers.get('content-type') || '';
+      if (!r.ok || t.indexOf('video') !== 0) return;          // файла нет (404 или страница ошибки) — блок не показываем
+      v.poster = src.replace(/\.mp4$/, '.webp');
+      v.preload = 'metadata';
+      v.src = src;
+      fig.hidden = false;
+      if (still) { v.controls = true; return; }
+      if (io) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting && e.intersectionRatio >= 0.5) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            else v.pause();
+          });
+        }, { threshold: [0, 0.5] }).observe(fig);
+      }
+    }).catch(function () {});
+    snd.addEventListener('click', function () {
+      v.muted = false; v.currentTime = 0; v.controls = true; snd.hidden = true;
+      var p = v.play(); if (p && p.catch) p.catch(function () {});
+      if (window.nordisGoal) window.nordisGoal('video_sound');
+    });
+  }
+  figs.forEach(function (fig) {
+    if (!io) return arm(fig);
+    var once = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { once.disconnect(); arm(fig); }
+    }, { rootMargin: '600px 0px' });
+    once.observe(fig.parentNode);                               // сама фигура скрыта — следим за её блоком
+  });
+})();
