@@ -66,6 +66,13 @@ document.addEventListener('click', function (e) {
     if (Object.keys(utm).length) sessionStorage.setItem('nordis_utm', JSON.stringify(utm));
     else utm = JSON.parse(sessionStorage.getItem('nordis_utm') || '{}');
   } catch (e) { utm = {}; }
+  // реферальная ссылка клиента NORDIS (?ref=КОД): помним 60 дней, в рекламу не засчитываем
+  try {
+    var rq = new URLSearchParams(location.search).get('ref');
+    if (rq && /^[a-z0-9]{4,12}$/i.test(rq)) localStorage.setItem('nordis_ref', JSON.stringify({ c: rq.toLowerCase(), t: Date.now() }));
+    var rr = JSON.parse(localStorage.getItem('nordis_ref') || 'null');
+    if (rr && Date.now() - rr.t < 60 * 864e5) utm = Object.assign({}, utm, { ref: rr.c });
+  } catch (e) { /* без ref */ }
 
   var form = document.getElementById('lead-form');
   if (!form) return;
