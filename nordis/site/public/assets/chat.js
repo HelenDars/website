@@ -4,6 +4,10 @@
   var KEY = 'nordis-chat';
   var hist = [];
   try { hist = JSON.parse(sessionStorage.getItem(KEY) || '[]'); } catch (e) { hist = []; }
+  // id заявки из чата — один на разговор: сервер шлёт Lead в Meta с ним же (Conversions API), дубля не будет
+  var meta = {};
+  try { meta = JSON.parse(sessionStorage.getItem('nordis-chat-meta') || 'null') || {}; } catch (e) { meta = {}; }
+  if (!meta.event_id && window.nordisMeta) { meta = { event_id: window.nordisMeta('chat').event_id }; try { sessionStorage.setItem('nordis-chat-meta', JSON.stringify(meta)); } catch (e) {} }
   var save = function () { try { sessionStorage.setItem(KEY, JSON.stringify(hist.slice(-24))); } catch (e) {} };
   var HELLO = 'Здравствуйте! Я Елена, ИИ-продавец NORDIS — так же будет работать ИИ-продавец у Вас. Расскажите, чем занимается Ваш бизнес, — подскажу, где NORDIS добавит чистой прибыли.';
 
@@ -40,13 +44,13 @@
     var t = ta.value.trim(); if (!t) return;
     ta.value = ''; hist.push({ role: 'user', text: t }); save(); bubble('user', t);
     var wait = bubble('assistant', 'Елена печатает…'); wait.classList.add('ec-wait');
-    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, sid: (function () { try { var k = sessionStorage.getItem('nordis_sid'); if (!k) { k = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('nordis_sid', k); } return k; } catch (e) { return ''; } })(), utm: (function () { try { return JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); } catch (e) { return {}; } })() };
+    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, sid: (function () { try { var k = sessionStorage.getItem('nordis_sid'); if (!k) { k = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('nordis_sid', k); } return k; } catch (e) { return ''; } })(), meta: (function () { var m = window.nordisMeta ? window.nordisMeta('chat') : {}; m.event_id = meta.event_id; return m; })(), utm: (function () { try { return JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); } catch (e) { return {}; } })() };
     fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
         wait.remove();
         var text = x.ok ? x.d.reply : (x.d.detail || 'Не получилось ответить. Напишите нам в WhatsApp: +7 702 268 17 77');
-        if (x.ok && x.d.whatsapp && !hist.some(function (h) { return h.wa; })) window.nordisGoal && window.nordisGoal('chat_lead');
+        if (x.ok && x.d.whatsapp && !hist.some(function (h) { return h.wa; })) window.nordisGoal && window.nordisGoal('chat_lead', meta.event_id);
         var m = { role: 'assistant', text: text, wa: x.ok ? x.d.whatsapp : null }; hist.push(m); save(); bubble('assistant', m.text, m.wa);
       })
       .catch(function () { wait.textContent = 'Нет связи. Напишите нам в WhatsApp: +7 702 268 17 77'; });

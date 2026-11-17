@@ -1,12 +1,27 @@
 /* NORDIS site: menu, lead form, UTM capture */
 /* Цели для Яндекс Метрики и пикселя Meta (если счётчики стоят): lead — заявка из формы, chat_lead — заявка из чата
    Елены, whatsapp — нажали WhatsApp, chat_open — открыли чат. В Метрике цели создаются как «JavaScript-событие». */
-window.nordisGoal = function (name) {
+/* Conversions API (17.11): то же событие отправляет и сервер NORDIS — с тем же eventID, Meta считает его один раз.
+   nordisMeta() — данные для сервера: id события, куки пикселя _fbp/_fbc, адрес страницы. */
+window.nordisMeta = function (prefix) {
+  var c = function (n) { var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; };
+  var fbc = c('_fbc');
+  if (!fbc) { try { var id = new URLSearchParams(location.search).get('fbclid'); if (id) fbc = 'fb.1.' + Date.now() + '.' + id; } catch (e) {} }
+  return { event_id: (prefix || 'ev') + '.' + Date.now().toString(36) + '.' + Math.random().toString(36).slice(2, 10),
+           fbp: c('_fbp'), fbc: fbc, url: location.href.slice(0, 500) };
+};
+window.nordisGoal = function (name, eventId) {
   try { if (window.ym && window.NORDIS_YM) window.ym(window.NORDIS_YM, 'reachGoal', name); } catch (e) {}
   try {
+    var opt = eventId ? { eventID: eventId } : undefined;
+    if (name === 'whatsapp' && !eventId) {        // Contact: сервер получает его сам (sendBeacon), браузер — с тем же id
+      var m = window.nordisMeta('wa'); opt = { eventID: m.event_id };
+      var b = JSON.stringify({ event: 'Contact', page: location.pathname, meta: m });
+      if (navigator.sendBeacon) navigator.sendBeacon('/api/public/site-event', new Blob([b], { type: 'application/json' }));
+    }
     if (window.fbq) {
-      if (name === 'lead' || name === 'chat_lead') window.fbq('track', 'Lead', { content_name: name });
-      else if (name === 'whatsapp') window.fbq('track', 'Contact');
+      if (name === 'lead' || name === 'chat_lead') window.fbq('track', 'Lead', { content_name: name }, opt);
+      else if (name === 'whatsapp') window.fbq('track', 'Contact', {}, opt);
       else window.fbq('trackCustom', name);
     }
   } catch (e) {}
@@ -80,7 +95,8 @@ document.addEventListener('click', function (e) {
       comment: (f.get('comment') || '').trim(),
       page: location.pathname,
       utm: utm,
-      source: 'nordis.kz'
+      source: 'nordis.kz',
+      meta: window.nordisMeta('lead')
     };
     if (!d.name || d.phone.replace(/\D/g, '').length < 10) {
       // называем именно пустое поле и ставим в него курсор (16.11: номер был верный, а ошибка звучала про оба поля)
@@ -95,7 +111,7 @@ document.addEventListener('click', function (e) {
 
     var done = function () {
       form.reset();
-      window.nordisGoal('lead');
+      window.nordisGoal('lead', d.meta.event_id);
       show('Спасибо! Заявка принята. Я свяжусь с вами в WhatsApp в течение рабочего дня.', true);
       btn.disabled = false;
     };
