@@ -13,7 +13,18 @@ window.nordisGoal = function (name) {
 };
 document.addEventListener('click', function (e) {
   var a = e.target.closest && e.target.closest('a[href*="wa.me/"]');
-  if (a) window.nordisGoal('whatsapp');
+  if (!a) return;
+  // Посетитель с рекламы (есть utm): вместо личного WhatsApp — чат ИИ-продавца на сайте, заявка попадёт в NORDIS
+  // с меткой объявления (Елена, 17.11). Кнопка «Отправить заявку в WhatsApp» из самого чата — как была, с пометкой.
+  var ad = false;
+  try { ad = Object.keys(JSON.parse(sessionStorage.getItem('nordis_utm') || '{}')).length > 0; } catch (x) {}
+  if (ad && !a.classList.contains('ec-wa') && window.nordisOpenChat) {
+    e.preventDefault(); window.nordisOpenChat(); window.nordisGoal('chat_open'); return;
+  }
+  if (ad && a.href.indexOf('%D0%B8%D0%B7%20%D1%80%D0%B5%D0%BA%D0%BB%D0%B0%D0%BC%D1%8B') < 0) {
+    a.href += (a.href.indexOf('?text=') >= 0 ? '' : '?text=') + encodeURIComponent(' (из рекламы)');
+  }
+  window.nordisGoal('whatsapp');
 });
 (function () {
   // Address of the NORDIS CRM endpoint that accepts leads (POST, JSON).

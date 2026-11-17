@@ -32,6 +32,7 @@
   function close() { box.hidden = true; btn.hidden = false; back.hidden = true; document.body.classList.remove('ec-lock'); }
   back.onclick = close;
   btn.onclick = open;
+  window.nordisOpenChat = open;   // посетитель с рекламы: кнопки WhatsApp открывают этот чат (Елена, 17.11)
   box.querySelector('.ec-x').onclick = close;
   ta.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
   form.onsubmit = function (e) {
