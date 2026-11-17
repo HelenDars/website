@@ -40,7 +40,7 @@
     var t = ta.value.trim(); if (!t) return;
     ta.value = ''; hist.push({ role: 'user', text: t }); save(); bubble('user', t);
     var wait = bubble('assistant', 'Елена печатает…'); wait.classList.add('ec-wait');
-    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, utm: (function () { try { return JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); } catch (e) { return {}; } })() };
+    var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, sid: (function () { try { var k = sessionStorage.getItem('nordis_sid'); if (!k) { k = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('nordis_sid', k); } return k; } catch (e) { return ''; } })(), utm: (function () { try { return JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); } catch (e) { return {}; } })() };
     fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
