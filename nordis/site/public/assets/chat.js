@@ -30,7 +30,8 @@
   function bubble(role, text, wa) {
     var d = document.createElement('div'); d.className = 'ec-m ' + (role === 'user' ? 'ec-u' : 'ec-a');
     d.textContent = text;
-    if (wa) { var a = document.createElement('a'); a.href = wa; a.target = '_blank'; a.rel = 'noopener'; a.className = 'btn primary ec-wa'; a.textContent = 'Отправить заявку в WhatsApp'; d.appendChild(a); }
+    // кнопки «Отправить заявку в WhatsApp» больше нет (Елена, 19.11): заявка уже у нас, клиент остаётся в чате
+    if (wa) { var ok = document.createElement('span'); ok.className = 'ec-done'; ok.textContent = '✅ Заявка принята — напишем вам в WhatsApp'; d.appendChild(ok); }
     msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d;
   }
   function draw() { msgs.innerHTML = ''; bubble('assistant', HELLO); hist.forEach(function (m) { bubble(m.role, m.text, m.wa); }); showQuick(); }
