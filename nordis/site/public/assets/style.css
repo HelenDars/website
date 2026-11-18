@@ -334,3 +334,8 @@ section.ec-box{padding:0}
 @media (max-width:760px){.vid-row,.vid-head{grid-template-columns:1fr;gap:16px}.vid,.vid-head .vid{max-width:200px;margin-left:auto;margin-right:auto}}
 .vid.vid-hero{position:absolute;right:-14px;bottom:-34px;width:170px;z-index:2;border:4px solid var(--white)}
 @media (max-width:760px){.vid.vid-hero{position:relative;right:auto;bottom:auto;width:100%;max-width:220px;margin:16px auto 0}}
+
+/* чат Елены: готовые вопросы */
+.ec-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}.ec-quick[hidden]{display:none}
+.ec-quick button{border:1px solid var(--line,#d9dce3);background:#fff;color:inherit;border-radius:999px;padding:7px 12px;font-family:inherit;font-weight:600;font-size:13px;line-height:1.2;cursor:pointer}
+.ec-quick button:first-child{background:var(--lime,#c8f43c);border-color:transparent}

@@ -18,10 +18,14 @@
   box.className = 'ec-box'; box.hidden = true; box.setAttribute('aria-label', 'Чат с Еленой');
   box.innerHTML = '<header><img src="assets/team/elena.webp" alt="" width="40" height="40"><div><b>Елена</b><span>ИИ-продавец NORDIS · онлайн 24/7</span></div>' +
     '<button type="button" class="ec-x" aria-label="Закрыть">×</button></header><div class="ec-msgs" aria-live="polite"></div>' +
-    '<p class="ec-ok">Отправляя сообщение, вы соглашаетесь с <a href="politika.html" target="_blank">обработкой персональных данных</a></p><form class="ec-form"><textarea rows="1" maxlength="1000" placeholder="Напишите вопрос…" aria-label="Сообщение"></textarea><button class="btn primary" type="submit">→</button></form>';
+    '<p class="ec-ok">Отправляя сообщение, вы соглашаетесь с <a href="politika.html" target="_blank">обработкой персональных данных</a></p><div class="ec-quick" role="group" aria-label="Быстрые вопросы"><button type="button">Хочу на разбор</button><button type="button">Сколько стоит?</button><button type="button">Как это работает?</button></div><form class="ec-form"><textarea rows="1" maxlength="1000" placeholder="Напишите вопрос…" aria-label="Сообщение"></textarea><button class="btn primary" type="submit">→</button></form>';
   var back = document.createElement('div'); back.className = 'ec-back'; back.hidden = true;
   document.body.append(back, btn, box);
   var msgs = box.querySelector('.ec-msgs'), form = box.querySelector('form'), ta = form.querySelector('textarea');
+  // готовые вопросы (Елена, 19.11): одно нажатие — и отправлено; пропадают после первого сообщения
+  var quick = box.querySelector('.ec-quick');
+  var showQuick = function () { quick.hidden = hist.some(function (m) { return m.role === 'user'; }); };
+  quick.querySelectorAll('button').forEach(function (b) { b.onclick = function () { ta.value = b.textContent; form.requestSubmit(); }; });
 
   function bubble(role, text, wa) {
     var d = document.createElement('div'); d.className = 'ec-m ' + (role === 'user' ? 'ec-u' : 'ec-a');
@@ -29,7 +33,7 @@
     if (wa) { var a = document.createElement('a'); a.href = wa; a.target = '_blank'; a.rel = 'noopener'; a.className = 'btn primary ec-wa'; a.textContent = 'Отправить заявку в WhatsApp'; d.appendChild(a); }
     msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d;
   }
-  function draw() { msgs.innerHTML = ''; bubble('assistant', HELLO); hist.forEach(function (m) { bubble(m.role, m.text, m.wa); }); }
+  function draw() { msgs.innerHTML = ''; bubble('assistant', HELLO); hist.forEach(function (m) { bubble(m.role, m.text, m.wa); }); showQuick(); }
   var phone = function () { return window.matchMedia('(max-width: 760px)').matches; };
   function open() { if (box.hidden && window.nordisGoal) window.nordisGoal('chat_open'); box.hidden = false; btn.hidden = true; back.hidden = !phone(); document.body.classList.toggle('ec-lock', phone()); draw();
     if (!phone()) setTimeout(function () { ta.focus(); }, 50); }   // на телефоне клавиатура — только по нажатию в поле
@@ -42,7 +46,7 @@
   form.onsubmit = function (e) {
     e.preventDefault();
     var t = ta.value.trim(); if (!t) return;
-    ta.value = ''; hist.push({ role: 'user', text: t }); save(); bubble('user', t);
+    ta.value = ''; hist.push({ role: 'user', text: t }); save(); bubble('user', t); showQuick();
     var wait = bubble('assistant', 'Елена печатает…'); wait.classList.add('ec-wait');
     var body = { messages: [{ role: 'assistant', text: HELLO }].concat(hist.slice(-23).map(function (m) { return { role: m.role, text: m.text.slice(0, 1000) }; })), page: location.pathname, sid: (function () { try { var k = sessionStorage.getItem('nordis_sid'); if (!k) { k = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); sessionStorage.setItem('nordis_sid', k); } return k; } catch (e) { return ''; } })(), meta: (function () { var m = window.nordisMeta ? window.nordisMeta('chat') : {}; m.event_id = meta.event_id; return m; })(), utm: (function () { try { var u = JSON.parse(sessionStorage.getItem('nordis_utm') || '{}'); var r = JSON.parse(localStorage.getItem('nordis_ref') || 'null'); if (r && Date.now() - r.t < 60 * 864e5) u.ref = r.c; return u; } catch (e) { return {}; } })() };
     fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
