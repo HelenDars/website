@@ -1,0 +1,60 @@
+<!-- title: ИИ-сотрудники NORDIS — продавец, РОП, таргетолог, финансист, наставник -->
+<!-- desc: ИИ-сотрудники с первого дня работают как профессионалы: обучены на техниках продаж и удачных диалогах вашей компании, ведут 10–30 диалогов одновременно, работают 24/7. -->
+
+<section class="hero">
+  <div class="wrap col" style="gap:20px">
+    <span class="pill">ИИ-сотрудники</span>
+    <h1>Команда, которую не нужно <em>искать, обучать и удерживать</em></h1>
+    <p class="lead">ИИ-сотрудники берут на себя рутину, которая раньше требовала отдельного человека. Все работают на одних данных бизнеса — поэтому не противоречат друг другу. Решения остаются за людьми.</p>
+    <div class="btns"><a class="btn primary" href="index.html#zayavka">Подключить ИИ-сотрудников</a></div>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap split">
+    <div class="col">
+      <p class="eyebrow">Как они обучаются</p>
+      <h2>Профессионалы <em>с первого дня</em></h2>
+      <p class="lead">Включаются в работу как специалисты с 7-летним опытом и разговаривают как живые менеджеры — их не отличить.</p>
+    </div>
+    <ul class="ticks">
+      <li><span><b>Профессиональные навыки.</b> Техники продаж, таргета, финансового и управленческого анализа</span></li>
+      <li><span><b>Опыт вашей компании.</b> Удачные диалоги, которые привели к сделкам, окупившиеся кампании, история продаж и прибыли</span></li>
+      <li><span><b>Учатся каждый день.</b> Берут только удачные кейсы и сразу применяют их в работе</span></li>
+      <li><span><b>Ваши правила.</b> Имя, характер, тон бренда и границы решений настраиваются под бизнес</span></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">ИИ-продавец</p><h2>Один ИИ-продавец ведёт <em>10–30 диалогов одновременно</em></h2></div>
+    <div class="grid g3">
+      <div class="card hl"><h3>Поднимает клиентскую базу</h3><p class="t">Пишет постоянным и давно не покупавшим клиентам по истории покупок. Здесь основные деньги</p></div>
+      <div class="card"><h3>Ничего не забывает</h3><p class="t">Вовремя напишет и выставит счёт. Две просрочки менеджера по клиенту — клиента забирает ИИ</p></div>
+      <div class="card"><h3>Ночью продаёт сам</h3><p class="t">Отвечает в WhatsApp и Instagram по базе знаний: цены, наличие, подбор, оплата. Днём подсказывает менеджерам и подхватывает новые заявки</p></div>
+    </div>
+    <p class="note" style="margin-top:16px">В пакетах: +1% с продаж, которые закрыл ИИ-продавец.</p>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">ИИ-команда</p><h2>Каждый отвечает <em>за свои деньги</em></h2><p class="lead">Подключаем тех, кто нужен вашему бизнесу. Все работают на одних данных — и на одну цель: чистую прибыль.</p></div>
+    <div class="grid g4 team"><div class="card"><div class="ph"><img src="assets/team/alina.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>ИИ-продавец</h3><p class="t">Отвечает клиентам за 30 секунд и доводит до оплаты — днём и ночью. Ведёт 10–30 диалогов одновременно</p></div><div class="card"><div class="ph"><img src="assets/team/voice.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>Голосовой продавец</h3><p class="t">Принимает звонки и перезванивает клиентам</p></div><div class="card"><div class="ph"><img src="assets/team/rop.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>ИИ-РОП</h3><p class="t">План и конверсия каждый день, разбор потерянных клиентов, подхватывает просроченные задачи</p></div><div class="card"><div class="ph"><img src="assets/team/target.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>ИИ-таргетолог</h3><p class="t">Цена заявки и окупаемость по каждой кампании. Говорит, какую рекламу выключить</p></div><div class="card"><div class="ph"><img src="assets/team/fin.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>ИИ-финансист</h3><p class="t">ОПиУ и ДДС, прогноз денег, сверка оплат и зарплат с выпиской. Сразу говорит, где теряется прибыль</p></div><div class="card soft"><div class="ph"><img src="assets/team/elena.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>Елена — помощник собственника</h3><p class="t">Цифры голосом и в чате, утренний брифинг в 8:00</p></div><div class="card"><div class="ph"><img src="assets/team/mentor.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>ИИ-наставник «Поговорим…»</h3><p class="t">Подсказывает менеджеру, как ответить клиенту и поднять чек</p></div><div class="card"><div class="ph"><img src="assets/team/dana.webp" alt="" width="76" height="76" loading="lazy"><span class="on">Онлайн 24/7</span></div><h3>Дана в курилке</h3><p class="t">Снимает стресс команды, замечает выгорание</p></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Почему ИИ, а не ещё один менеджер</p><h2>Не болеют, не уходят в отпуск, <em>не увольняются</em></h2></div>
+    <div class="grid g4">
+      <div class="card"><h3>24/7</h3><p class="t">Без выходных и больничных. Им нравится авральный режим</p></div>
+      <div class="card"><h3>1 минута</h3><p class="t">Время ответа клиенту — днём и ночью</p></div>
+      <div class="card"><h3>2 дня</h3><p class="t">Чтобы собрать отдел продаж из ИИ-сотрудников, если его ещё нет</p></div>
+      <div class="card hl"><h3>Подстраховка</h3><p class="t">Сотрудник не успевает — через заданное время ИИ сам закрывает задачу</p></div>
+    </div>
+  </div>
+</section>
+
+{{FORM}}
