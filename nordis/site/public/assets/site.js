@@ -45,6 +45,15 @@ document.addEventListener('click', function (e) {
   // Address of the NORDIS CRM endpoint that accepts leads (POST, JSON).
   // While it is empty, the form opens WhatsApp with the filled-in request.
   var LEAD_ENDPOINT = '/api/public/site-lead';
+  window.nordisT0 = window.nordisT0 || Date.now();
+  // поле-ловушка для ботов: человек его не видит и не заполняет (задача 17)
+  document.querySelectorAll('form').forEach(function (fm) {
+    if (fm.querySelector('[name="website"]')) return;
+    var i = document.createElement('input');
+    i.type = 'text'; i.name = 'website'; i.tabIndex = -1; i.autocomplete = 'off'; i.setAttribute('aria-hidden', 'true');
+    i.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
+    fm.appendChild(i);
+  });
   var WHATSAPP = '77022681777';
 
   var burger = document.querySelector('.burger');
@@ -94,6 +103,7 @@ document.addEventListener('click', function (e) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = new FormData(form);
+    var hp = form.querySelector('[name="website"]');
     var d = {
       name: (f.get('name') || '').trim(),
       phone: (f.get('phone') || '').trim(),
@@ -103,7 +113,9 @@ document.addEventListener('click', function (e) {
       page: location.pathname,
       utm: utm,
       source: 'nordis.kz',
-      meta: window.nordisMeta('lead')
+      meta: window.nordisMeta('lead'),
+      hp: hp ? hp.value : '',               // защита от ботов (задача 17): поле-ловушка и время заполнения
+      t: Date.now() - (window.nordisT0 || 0)
     };
     if (!d.name || d.phone.replace(/\D/g, '').length < 10) {
       // называем именно пустое поле и ставим в него курсор (16.11: номер был верный, а ошибка звучала про оба поля)
