@@ -236,7 +236,7 @@ document.addEventListener('click', function (e) {
 })();
 
 /* Видео Елены (В1–В5): файл assets/video/vN.mp4 (+ обложка vN.webp). Пока файла нет — блок скрыт, сайт как раньше.
-   Без звука, по кругу, играет только на экране; «уменьшить движение» в системе — без автозапуска (по нажатию).
+   Без звука, один раз (без повтора), играет только на экране; «уменьшить движение» в системе — без автозапуска (по нажатию).
    «🔊 Со звуком» — цель Метрики video_sound. */
 (function () {
   var figs = document.querySelectorAll('figure.vid[data-video]');
@@ -253,11 +253,15 @@ document.addEventListener('click', function (e) {
       v.preload = 'metadata';
       v.src = src;
       fig.hidden = false;
+      v.loop = false;
+      v.addEventListener('ended', function () {               // один раз: в конце — на начало, без повтора
+        fig.done = true; v.currentTime = 0; snd.hidden = false; snd.textContent = '🔊 Смотреть со звуком';
+      });
       if (still) { v.controls = true; return; }
       if (io) {
         new IntersectionObserver(function (es) {
           es.forEach(function (e) {
-            if (e.isIntersecting && e.intersectionRatio >= 0.5) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            if (e.isIntersecting && e.intersectionRatio >= 0.5) { if (fig.done) return; var p = v.play(); if (p && p.catch) p.catch(function () {}); }
             else v.pause();
           });
         }, { threshold: [0, 0.5] }).observe(fig);
