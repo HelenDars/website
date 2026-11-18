@@ -160,7 +160,7 @@ section.white .card{background:var(--paper)}
 /* form */
 .form-card{background:var(--white);border-radius:28px;padding:clamp(22px,4vw,40px);border:1px solid var(--line);box-shadow:0 24px 60px #0D122914}
 form{display:grid;gap:14px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
 @media (max-width:600px){.row2{grid-template-columns:1fr}}
 label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px}
 input,select,textarea{font:500 16px var(--txt);color:var(--ink);background:var(--paper);border:1px solid #CDD3E1;border-radius:12px;padding:13px 14px;width:100%}
