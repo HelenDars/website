@@ -72,8 +72,17 @@ document.addEventListener('click', function (e) {
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
       if (q.get(k)) utm[k] = q.get(k);
     });
-    if (Object.keys(utm).length) sessionStorage.setItem('nordis_utm', JSON.stringify(utm));
-    else utm = JSON.parse(sessionStorage.getItem('nordis_utm') || '{}');
+    // метки рекламы помним 7 дней: вернулся в новой вкладке — заявка всё равно со своим объявлением (19.11)
+    if (Object.keys(utm).length) {
+      sessionStorage.setItem('nordis_utm', JSON.stringify(utm));
+      localStorage.setItem('nordis_utm7', JSON.stringify({ u: utm, t: Date.now() }));
+    } else {
+      utm = JSON.parse(sessionStorage.getItem('nordis_utm') || '{}');
+      if (!Object.keys(utm).length) {
+        var u7 = JSON.parse(localStorage.getItem('nordis_utm7') || 'null');
+        if (u7 && Date.now() - u7.t < 7 * 864e5) { utm = u7.u || {}; sessionStorage.setItem('nordis_utm', JSON.stringify(utm)); }
+      }
+    }
   } catch (e) { utm = {}; }
   // реферальная ссылка клиента NORDIS (?ref=КОД): помним 60 дней, в рекламу не засчитываем
   try {
@@ -131,7 +140,7 @@ document.addEventListener('click', function (e) {
     var done = function () {
       form.reset();
       window.nordisGoal('lead', d.meta.event_id);
-      show('Спасибо! Заявка принята. Я свяжусь с вами в WhatsApp в течение рабочего дня.', true);
+      show('Спасибо! Заявка принята. Я свяжусь с вами в WhatsApp в течение 15 минут в рабочее время.', true);
       btn.disabled = false;
     };
     var fallback = function () {
