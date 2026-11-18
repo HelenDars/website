@@ -140,7 +140,9 @@ document.addEventListener('click', function (e) {
     var done = function () {
       form.reset();
       window.nordisGoal('lead', d.meta.event_id);
-      show('Спасибо! Заявка принята. Я свяжусь с вами в WhatsApp в течение 15 минут в рабочее время.', true);
+      // обещание сайта — ответ за 30 секунд (Елена, 19.11): сразу открываем чат — там выбирают время разбора
+      show('Спасибо! Заявка принята. Выберите удобное время разбора — в чате справа, ответим за 30 секунд.', true);
+      if (window.nordisOpenChat) setTimeout(function () { window.nordisOpenChat(); window.nordisGoal('chat_open'); }, 700);
       btn.disabled = false;
     };
     var fallback = function () {
